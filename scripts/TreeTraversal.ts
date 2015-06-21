@@ -4,7 +4,7 @@ module TreeTraversal
     {
         static InOrderTraversal(root:Node):Node[] {
             if(root == null)
-                throw new Error("root must be defined")
+                return [];
 
             var resultStack:Node[] = [];
             var navStack:Node[] = [root];

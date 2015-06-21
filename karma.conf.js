@@ -16,6 +16,10 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'scripts/vendor/*.js',
+      'scripts/TreeTraversal.js',
+      'scripts/NodeCommonality.js',
+      'scripts/TreeCommonality.js',
+      'scripts/AugmentedTreeBuilding.js',
       'scripts/**/*.js'
     ],
 

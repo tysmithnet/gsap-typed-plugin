@@ -18,14 +18,9 @@ describe("In order traversal", () => {
         exampleTree2.innerHTML = "<B></B><C></C>";
     });
 
-    it("should throw an error if no value is supplied", () => {
-        expect(() => {
-            Traverser.InOrderTraversal(null);
-        }).toThrowError();
-
-        expect(() => {
-            Traverser.InOrderTraversal(undefined);
-        }).toThrowError();
+    it("should return an empty array if either provided value is null", () => {
+        expect(Traverser.InOrderTraversal(null)).toEqual([]);
+        expect(Traverser.InOrderTraversal(undefined)).toEqual([]);
     });
 
     it("should return just the root if that is the only node in the tree", () => {
