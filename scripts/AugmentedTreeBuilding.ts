@@ -12,48 +12,32 @@ module AugmentedTreeBuilding
         parent:TreeElement;
         node: Node;
         childNodes:TreeElement[] = [];
-    }
-
-    export class CommonSubTreeElement extends TreeElement
-    {
-        parent:CommonSubTreeElement;
-        isInCommonSubTree:boolean;
-        childNodes:CommonSubTreeElement[] = [];
-    }
-
-    export class VisualCommonSubTreeElement extends CommonSubTreeElement
-    {
         numberKeyPressesToReveal:number;
+        isInCommonSubTree:boolean;
     }
-
+    
     export class CommonSubTreeAugmentedTreeBuilder
     {
-        static buildTree(fullTreeRoot:Node, commonSubTreeRoot:Node):CommonSubTreeElement
+        static buildTree(fullTreeRoot:Node, commonSubTreeRoot:Node):TreeElement
         {
             if(fullTreeRoot == null || commonSubTreeRoot == null)
                 throw Error("Both tree roots must be non-null");
 
-            var result:CommonSubTreeElement;
+            var result:TreeElement;
 
             var numberOfCommonNodes = Traverser.InOrderTraversal(commonSubTreeRoot).length;
             var numberMarkedAsCommon = 0;
 
-            var recursion = (parent:CommonSubTreeElement, node:Node):void => {
-                var element:CommonSubTreeElement;
-                if(node.nodeType == Node.TEXT_NODE)
-                {
-                    var newVisualElement = new VisualCommonSubTreeElement();
-                    newVisualElement.numberKeyPressesToReveal = (<Text>node).wholeText.length;
-                    element = newVisualElement;
-                }
-                else
-                {
-                    element = new CommonSubTreeElement();
-                }
-
+            var recursion = (parent:TreeElement, node:Node):void => {
+                var element = new TreeElement();
                 element.node = node;
                 element.parent = parent;
                 element.isInCommonSubTree = numberMarkedAsCommon++ < numberOfCommonNodes;
+
+                if(node.nodeType == Node.TEXT_NODE)
+                    element.numberKeyPressesToReveal = (<Text>node).wholeText.length;
+                else
+                    element.numberKeyPressesToReveal = 0;
 
                 if(parent == null)
                     result = element;

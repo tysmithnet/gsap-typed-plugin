@@ -12,6 +12,10 @@ describe("", () => {
     var example1Left;
     var example1Right;
 
+    var example2Left;
+    var example2Right;
+    var example2Expectation;
+
     beforeEach(() => {
         example0Left = $('<A>').html('<B><X></X><Y></Y><Z></Z></B><C></C>')[0];
         example0Right = $('<A>').html('<B><X></X><Y></Y></B><C></C>')[0];
@@ -19,6 +23,10 @@ describe("", () => {
 
         example1Left = $('<B>')[0];
         example1Right = $('<C>')[0];
+
+        example2Left = $('<div>').html("this <strong> is </strong><h2>big</h2>")[0];
+        example2Right = $('<div>').html("this <strong> is </strong><h1>bigger</h1>")[0];
+        example2Expectation = $('<div>').html("this <strong> is </strong>")[0];
     });
 
     it("should throw an error if any of the arguments are null", () => {
@@ -39,5 +47,8 @@ describe("", () => {
     it("should correctly identify common left subtrees", () => {
         expect(finder.findCommonLeftSubTree(example0Left, example0Right).leftCommonSubTree).toEqual(example0Expectation);
         expect(finder.findCommonLeftSubTree(example0Right, example0Left).leftCommonSubTree).toEqual(example0Expectation);
+
+        expect(finder.findCommonLeftSubTree(example2Left, example2Right).leftCommonSubTree).toEqual(example2Expectation);
+        expect(finder.findCommonLeftSubTree(example2Right, example2Left).leftCommonSubTree).toEqual(example2Expectation);
     });
 });

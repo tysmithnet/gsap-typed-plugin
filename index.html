@@ -3,8 +3,38 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+
+    <script src="scripts/vendor/jquery-2.1.4.js"></script>
+    <script src="scripts/TreeTraversal.js"></script>
+    <script src="scripts/NodeCommonality.js"></script>
+    <script src="scripts/TreeCommonality.js"></script>
+    <script src="scripts/AugmentedTreeBuilding.js"></script>
+    <script src="scripts/TreePrinting.js"></script>
+    <script type="text/javascript">
+        var TreePrinter = TreePrinting.TreePrinter;
+        var Finder = TreeCommonality.CommonLeftSubTreeFinder;
+        var TreeBuilder = AugmentedTreeBuilding.CommonSubTreeAugmentedTreeBuilder;
+        var $ = jQuery;
+        var Example = (function () {
+            function Example() {
+            }
+            return Example;
+        })();
+        example3 = new Example();
+        example3.fromTree = $('<div>').html("<div>abcde<div>ghijk</div></div>")[0];
+        example3.toTree = $('<div>').html("<div>edcba<div>ghijk</div></div>")[0];
+        var commonSubTree = Finder.findCommonLeftSubTree(example3.fromTree, example3.toTree);
+        example3.fromTreeAug = TreeBuilder.buildTree(example3.fromTree, commonSubTree.leftCommonSubTree);
+        example3.toTreeAug = TreeBuilder.buildTree(example3.toTree, commonSubTree.leftCommonSubTree);
+        var printer = new TreePrinter(example3.fromTreeAug, example3.toTreeAug);
+        var expectation = $('<div>').html("<div>edcba</div>")[0];
+        var result = printer.printTree(.75);
+        $(function(){
+           $('body')[0].appendChild(result);
+        });
+    </script>
 </head>
 <body>
-    <h1>hi</h1>
+
 </body>
 </html>

@@ -20,6 +20,7 @@ module.exports = function(config) {
       'scripts/NodeCommonality.js',
       'scripts/TreeCommonality.js',
       'scripts/AugmentedTreeBuilding.js',
+      'scripts/TreePrinting.js',
       'scripts/**/*.js'
     ],
 
