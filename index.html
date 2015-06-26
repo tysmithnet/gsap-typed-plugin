@@ -20,15 +20,14 @@
             }
             return Example;
         })();
-        example3 = new Example();
-        example3.fromTree = $('<div>').html("<div>abcde<div>ghijk</div></div>")[0];
-        example3.toTree = $('<div>').html("<div>edcba<div>ghijk</div></div>")[0];
-        var commonSubTree = Finder.findCommonLeftSubTree(example3.fromTree, example3.toTree);
-        example3.fromTreeAug = TreeBuilder.buildTree(example3.fromTree, commonSubTree.leftCommonSubTree);
-        example3.toTreeAug = TreeBuilder.buildTree(example3.toTree, commonSubTree.leftCommonSubTree);
-        var printer = new TreePrinter(example3.fromTreeAug, example3.toTreeAug);
-        var expectation = $('<div>').html("<div>edcba</div>")[0];
-        var result = printer.printTree(.75);
+        example4 = new Example();
+        example4.fromTree = $('<div>').html("<div><div></div></div>")[0];
+        example4.toTree = $('<div>').html("<section><section></section></section>")[0];
+        var commonSubTree = Finder.findCommonLeftSubTree(example4.fromTree, example4.toTree);
+        example4.fromTreeAug = TreeBuilder.buildTree(example4.fromTree, commonSubTree.leftCommonSubTree);
+        example4.toTreeAug = TreeBuilder.buildTree(example4.toTree, commonSubTree.leftCommonSubTree);
+        var printer = new TreePrinter(example4.fromTreeAug, example4.toTreeAug);
+        var result = printer.printTree(1);
         $(function(){
            $('body')[0].appendChild(result);
         });

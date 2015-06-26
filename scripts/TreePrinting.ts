@@ -119,39 +119,72 @@ module TreePrinting
 
         private showRemainingTypedContent(numKeyPresses):Node
         {
-            var keyPressesToEnd = this.numKeyPressesFromCommonUntilFinish - numKeyPresses;
-            var clone = this.toTree.node.cloneNode(true);
-            var cloneTraversal = TreeTraversal.Traverser.InOrderTraversal(clone);
+            var clone = this.toTree.node.cloneNode(false);
+            var currentNode = clone;
+            var navStack: [{element:TreeElement; childIndex:number}] = [{element:this.toTree, childIndex:-1}];
             var runningTotal = 0;
-            for(var i = this.toTreeInOrderTraversal.length - 1; i >= 0; i--)
+
+            if(numKeyPresses == 0)
+                return this.toTree.node;
+
+            while(navStack.length)
             {
-                var element = this.toTreeInOrderTraversal[i];
-                var node = cloneTraversal[i];
-                if(element.numberKeyPressesToReveal + runningTotal < keyPressesToEnd)
+                var top = navStack[navStack.length - 1];
+                if(top.element.isInCommonSubTree)
                 {
-                    if(node.parentNode)
+                    if(navStack.length > 1 && top.childIndex == -1)
                     {
-                        node.parentNode.removeChild(node);
-                        runningTotal += element.numberKeyPressesToReveal;
+                        var newNode = top.element.node.cloneNode(false);
+                        currentNode.appendChild(newNode);
+                        currentNode = newNode;
                     }
+
+                    if(++top.childIndex < top.element.childNodes.length)
+                        navStack.push({
+                            element:top.element.childNodes[top.childIndex],
+                            childIndex: -1});
                     else
                     {
-                        clone = null;
-                        break;
+                        navStack.pop();
+                        currentNode = currentNode.parentNode;
                     }
                 }
                 else
                 {
-                    if(node.nodeType != Node.TEXT_NODE)
+                    if(runningTotal + top.element.numberKeyPressesToReveal < numKeyPresses)
+                    {
+                        if(navStack.length > 1 && top.childIndex == -1)
+                        {
+                            var newNode = top.element.node.cloneNode(false);
+                            currentNode.appendChild(newNode);
+                            currentNode = newNode;
+                        }
+
+                        if(++top.childIndex < top.element.childNodes.length)
+                            navStack.push({
+                                element:top.element.childNodes[top.childIndex],
+                                childIndex: -1});
+                        else
+                        {
+                            navStack.pop();
+                            currentNode = currentNode.parentNode;
+                        }
+
+                        runningTotal += top.element.numberKeyPressesToReveal;
+                    }
+                    else
+                    {
+                        var text = (<Text>top.element.node).wholeText;
+                        var display = text.substring(0, numKeyPresses - runningTotal);
+                        var textnode = document.createTextNode(display);
+
+                        if(navStack.length < 2)
+                            return textnode;
+                        else
+                            currentNode.appendChild(textnode);
+
                         return clone;
-                    var text = (<Text>element.node).wholeText;
-                    var lengthOfRemainingText = text.length - (keyPressesToEnd - runningTotal);
-                    var display = text.substring(0,  lengthOfRemainingText);
-                    var parent = node.parentNode;
-                    parent.removeChild(node);
-                    if(display != "")
-                        parent.appendChild(document.createTextNode(display));
-                    return clone;
+                    }
                 }
             }
             return clone;
