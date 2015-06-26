@@ -89,16 +89,8 @@ module TreePrinting
                 var node = cloneTraversal[i];
                 if(element.numberKeyPressesToReveal + runningTotal < numberOfBackspaces)
                 {
-                    if(node.parentNode)
-                    {
-                        node.parentNode.removeChild(node);
-                        runningTotal += element.numberKeyPressesToReveal;
-                    }
-                    else
-                    {
-                        clone = null;
-                        break;
-                    }
+                    node.parentNode.removeChild(node);
+                    runningTotal += element.numberKeyPressesToReveal;
                 }
                 else
                 {
@@ -111,7 +103,7 @@ module TreePrinting
                     parent.removeChild(node);
                     if(display != "")
                         parent.appendChild(document.createTextNode(display));
-                    return clone;
+                    break;
                 }
             }
             return clone;
@@ -183,7 +175,7 @@ module TreePrinting
                         else
                             currentNode.appendChild(textnode);
 
-                        return clone;
+                        break;
                     }
                 }
             }

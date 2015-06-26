@@ -24,6 +24,15 @@ describe("Tree printing for common subtree", () => {
     var example2: Example;
     var example3: Example;
     var example4: Example;
+    var example5: Example;
+
+    function printerFacade(from:Node, to:Node):TreePrinter
+    {
+        var common = Finder.findCommonLeftSubTree(from, to);
+        var fromAug = TreeBuilder.buildTree(from, common.leftCommonSubTree);
+        var toAug = TreeBuilder.buildTree(to, common.leftCommonSubTree);
+        return new TreePrinter(fromAug, toAug);
+    }
 
     function createExample0()
     {
@@ -75,12 +84,23 @@ describe("Tree printing for common subtree", () => {
         example4.toTreeAug = TreeBuilder.buildTree(example4.toTree, commonSubTree.leftCommonSubTree);
     }
 
+    function createExample5()
+    {
+        example5 = new Example();
+        example5.fromTree = $('<div>').html("")[0];
+        example5.toTree = $('<div>').html("<div>hi<div>there<div></div><div>everybody</div></div></div>")[0];
+        var commonSubTree = Finder.findCommonLeftSubTree(example5.fromTree, example5.toTree);
+        example5.fromTreeAug = TreeBuilder.buildTree(example5.fromTree, commonSubTree.leftCommonSubTree);
+        example5.toTreeAug = TreeBuilder.buildTree(example5.toTree, commonSubTree.leftCommonSubTree);
+    }
+    
     beforeEach(() => {
         createExample0();
         createExample1();
         createExample2();
         createExample3();
         createExample4();
+        createExample5();
     });
 
     it("should return the from tree when no key presses should be made", () => {
@@ -152,9 +172,24 @@ describe("Tree printing for common subtree", () => {
         expect(printer.printTree(.75)).toEqual($('<div>').html("<div>edcba</div>")[0]);
     });
 
+    it("should return the appropriate tree when a fractional number is passed (example 5)", () => {
+        var printer = new TreePrinter(example5.fromTreeAug, example5.toTreeAug);
+        expect(printer.printTree(1)).toEqual($('<div>').html("<div>hi<div>there<div></div><div>everybody</div></div></div>")[0]);
+    });
+
     it("should return the full to tree for any non zero percent when there are no visual elements", () => {
         var printer = new TreePrinter(example4.fromTreeAug, example4.toTreeAug);
         expect(printer.printTree(0)).toEqual($('<div>').html("<div><div></div></div>")[0]);
+        expect(printer.printTree(.5)).toEqual($('<div>').html("<div><div></div></div>")[0]);
         expect(printer.printTree(1)).toEqual($('<div>').html("<section><section></section></section>")[0]);
     });
+
+    it("should return a text node as the only element if it is the to tree ", () => {
+        var from = document.createElement("div");
+        var to = document.createTextNode("hi");
+        var printer = printerFacade(from, to);
+        expect(printer.printTree(1)).toEqual(to);
+    });
+
+
 });

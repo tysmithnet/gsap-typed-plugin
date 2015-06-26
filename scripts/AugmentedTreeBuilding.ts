@@ -20,8 +20,8 @@ module AugmentedTreeBuilding
     {
         static buildTree(fullTreeRoot:Node, commonSubTreeRoot:Node):TreeElement
         {
-            if(fullTreeRoot == null || commonSubTreeRoot == null)
-                throw Error("Both tree roots must be non-null");
+            if(fullTreeRoot == null)
+                throw Error("The full tree root must be non-null");
 
             var result:TreeElement;
 

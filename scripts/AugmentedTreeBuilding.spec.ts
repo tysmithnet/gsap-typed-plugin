@@ -191,17 +191,13 @@ describe("Common sub tree augmented tree building", () => {
         buildCommonTree2();
     });
 
-    it("should throw error if either root is null", () => {
+    it("should throw error if the full tree root is null", () => {
         expect(() => {
             TreeBuilder.buildTree(null, null);
         }).toThrowError();
 
         expect(() => {
             TreeBuilder.buildTree(null, commonTree0);
-        }).toThrowError();
-
-        expect(() => {
-            TreeBuilder.buildTree(commonTree0, null);
         }).toThrowError();
     });
 
