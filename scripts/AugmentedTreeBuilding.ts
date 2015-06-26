@@ -16,7 +16,7 @@ module AugmentedTreeBuilding
         isInCommonSubTree:boolean;
     }
     
-    export class CommonSubTreeAugmentedTreeBuilder
+    export class AugmentedTreeBuilder
     {
         static buildTree(fullTreeRoot:Node, commonSubTreeRoot:Node):TreeElement
         {

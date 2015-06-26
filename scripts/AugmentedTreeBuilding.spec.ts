@@ -2,7 +2,7 @@
 ///<reference path="vendor/jquery.d.ts"/>
 ///<reference path="AugmentedTreeBuilding.ts"/>
 
-var TreeBuilder = AugmentedTreeBuilding.CommonSubTreeAugmentedTreeBuilder;
+var TreeBuilder = AugmentedTreeBuilding.AugmentedTreeBuilder;
 var TreeElement = AugmentedTreeBuilding.TreeElement;
 var $ = jQuery;
 

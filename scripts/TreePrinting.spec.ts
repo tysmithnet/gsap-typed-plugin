@@ -7,7 +7,7 @@
 
 import TreePrinter = TreePrinting.TreePrinter;
 import Finder = TreeCommonality.CommonLeftSubTreeFinder;
-import TreeBuilder = AugmentedTreeBuilding.CommonSubTreeAugmentedTreeBuilder;
+import TreeBuilder = AugmentedTreeBuilding.AugmentedTreeBuilder;
 var $ = jQuery;
 
 class Example
