@@ -196,23 +196,23 @@ describe("Common sub tree augmented tree building", () => {
 
     it("should throw error if the full tree root is null", () => {
         expect(() => {
-            TreeBuilder.buildTree(null, null);
+            new TreeBuilder(null, null).buildTree();
         }).toThrowError();
 
         expect(() => {
-            TreeBuilder.buildTree(null, commonTree0);
+            new TreeBuilder(null, commonTree0).buildTree();
         }).toThrowError();
     });
 
     it("should build an augmented tree", () => {
-        expect(TreeBuilder.buildTree(fullTree0, commonTree0)).toEqual(expectation0);
-        expect(TreeBuilder.buildTree(fullTree1, commonTree1)).toEqual(expectation1);
-        var result = TreeBuilder.buildTree(fullTree2, commonTree2);
+        expect(new TreeBuilder(fullTree0, commonTree0).buildTree()).toEqual(expectation0);
+        expect(new TreeBuilder(fullTree1, commonTree1).buildTree()).toEqual(expectation1);
+        var result = new TreeBuilder(fullTree2, commonTree2).buildTree();
         expect(result).toEqual(expectation2);
     });
 
     it("should build a tree with all nodes not in the common sub tree if the common sub tree is null", () => {
-        var tree = TreeBuilder.buildTree(fullTree0);
+        var tree = new TreeBuilder(fullTree0, null).buildTree();
         var traversal = Traverser.InOrderTraversal(tree);
         var agg = false;
         for(var i = 0; i < traversal.length; i++)

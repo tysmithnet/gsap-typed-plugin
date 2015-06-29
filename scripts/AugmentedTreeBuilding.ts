@@ -18,14 +18,23 @@ module AugmentedTreeBuilding
     
     export class AugmentedTreeBuilder
     {
-        static buildTree(fullTreeRoot:Node, commonSubTreeRoot:Node = null):TreeElement
+        private fullTreeRoot:Node;
+        private commonSubTreeRoot:Node;
+
+
+        constructor(fullTreeRoot:Node, commonSubTreeRoot:Node) {
+            this.fullTreeRoot = fullTreeRoot;
+            this.commonSubTreeRoot = commonSubTreeRoot;
+        }
+
+        buildTree():TreeElement
         {
-            if(fullTreeRoot == null)
+            if(this.fullTreeRoot == null)
                 throw Error("The full tree root must be non-null");
 
             var result:TreeElement;
 
-            var numberOfCommonNodes = Traverser.InOrderTraversal(commonSubTreeRoot).length;
+            var numberOfCommonNodes = Traverser.InOrderTraversal(this.commonSubTreeRoot).length;
             var numberMarkedAsCommon = 0;
 
             var recursion = (parent:TreeElement, node:Node):void => {
@@ -50,7 +59,7 @@ module AugmentedTreeBuilding
                 }
             }
 
-            recursion(null, fullTreeRoot);
+            recursion(null, this.fullTreeRoot);
 
             return result;
         }

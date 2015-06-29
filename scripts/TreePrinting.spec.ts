@@ -29,8 +29,8 @@ describe("Tree printing for common subtree", () => {
     function printerFacade(from:Node, to:Node):TreePrinter
     {
         var common = Finder.findCommonLeftSubTree(from, to);
-        var fromAug = TreeBuilder.buildTree(from, common.leftCommonSubTree);
-        var toAug = TreeBuilder.buildTree(to, common.leftCommonSubTree);
+        var fromAug = new TreeBuilder(from, common.leftCommonSubTree).buildTree();
+        var toAug = new TreeBuilder(to, common.leftCommonSubTree).buildTree();
         return new TreePrinter(fromAug, toAug);
     }
 
@@ -40,8 +40,8 @@ describe("Tree printing for common subtree", () => {
         example0.fromTree = $('<div>').html("this <strong> is </strong><h2>big</h2>")[0];
         example0.toTree = $('<div>').html("this <strong> is </strong><h1>bigger!</h1>")[0];
         var commonSubTree = Finder.findCommonLeftSubTree(example0.fromTree, example0.toTree);
-        example0.fromTreeAug = TreeBuilder.buildTree(example0.fromTree, commonSubTree.leftCommonSubTree);
-        example0.toTreeAug = TreeBuilder.buildTree(example0.toTree, commonSubTree.leftCommonSubTree);
+        example0.fromTreeAug = new TreeBuilder(example0.fromTree, commonSubTree.leftCommonSubTree).buildTree();
+        example0.toTreeAug = new TreeBuilder(example0.toTree, commonSubTree.leftCommonSubTree).buildTree();
     }
 
     function createExample1()
@@ -50,8 +50,8 @@ describe("Tree printing for common subtree", () => {
         example1.fromTree = $('<div>').html("")[0];
         example1.toTree = $('<div>').html("1234567890")[0];
         var commonSubTree = Finder.findCommonLeftSubTree(example1.fromTree, example1.toTree);
-        example1.fromTreeAug = TreeBuilder.buildTree(example1.fromTree, commonSubTree.leftCommonSubTree);
-        example1.toTreeAug = TreeBuilder.buildTree(example1.toTree, commonSubTree.leftCommonSubTree);
+        example1.fromTreeAug = new TreeBuilder(example1.fromTree, commonSubTree.leftCommonSubTree).buildTree();
+        example1.toTreeAug = new TreeBuilder(example1.toTree, commonSubTree.leftCommonSubTree).buildTree();
     }
 
     function createExample2()
@@ -60,8 +60,8 @@ describe("Tree printing for common subtree", () => {
         example2.fromTree = $('<div>').html("1234567890")[0];
         example2.toTree = $('<div>').html("")[0];
         var commonSubTree = Finder.findCommonLeftSubTree(example2.fromTree, example2.toTree);
-        example2.fromTreeAug = TreeBuilder.buildTree(example2.fromTree, commonSubTree.leftCommonSubTree);
-        example2.toTreeAug = TreeBuilder.buildTree(example2.toTree, commonSubTree.leftCommonSubTree);
+        example2.fromTreeAug = new TreeBuilder(example2.fromTree, commonSubTree.leftCommonSubTree).buildTree();
+        example2.toTreeAug = new TreeBuilder(example2.toTree, commonSubTree.leftCommonSubTree).buildTree();
     }
 
     function createExample3()
@@ -70,8 +70,8 @@ describe("Tree printing for common subtree", () => {
         example3.fromTree = $('<div>').html("<div>abcde<div>ghijk</div></div>")[0];
         example3.toTree = $('<div>').html("<div>edcba<div>ghijk</div></div>")[0];
         var commonSubTree = Finder.findCommonLeftSubTree(example3.fromTree, example3.toTree);
-        example3.fromTreeAug = TreeBuilder.buildTree(example3.fromTree, commonSubTree.leftCommonSubTree);
-        example3.toTreeAug = TreeBuilder.buildTree(example3.toTree, commonSubTree.leftCommonSubTree);
+        example3.fromTreeAug = new TreeBuilder(example3.fromTree, commonSubTree.leftCommonSubTree).buildTree();
+        example3.toTreeAug = new TreeBuilder(example3.toTree, commonSubTree.leftCommonSubTree).buildTree();
     }
 
     function createExample4()
@@ -80,8 +80,8 @@ describe("Tree printing for common subtree", () => {
         example4.fromTree = $('<div>').html("<div><div></div></div>")[0];
         example4.toTree = $('<div>').html("<section><section></section></section>")[0];
         var commonSubTree = Finder.findCommonLeftSubTree(example4.fromTree, example4.toTree);
-        example4.fromTreeAug = TreeBuilder.buildTree(example4.fromTree, commonSubTree.leftCommonSubTree);
-        example4.toTreeAug = TreeBuilder.buildTree(example4.toTree, commonSubTree.leftCommonSubTree);
+        example4.fromTreeAug = new TreeBuilder(example4.fromTree, commonSubTree.leftCommonSubTree).buildTree();
+        example4.toTreeAug = new TreeBuilder(example4.toTree, commonSubTree.leftCommonSubTree).buildTree();
     }
 
     function createExample5()
@@ -90,8 +90,8 @@ describe("Tree printing for common subtree", () => {
         example5.fromTree = $('<div>').html("")[0];
         example5.toTree = $('<div>').html("<div>hi<div>there<div></div><div>everybody</div></div></div>")[0];
         var commonSubTree = Finder.findCommonLeftSubTree(example5.fromTree, example5.toTree);
-        example5.fromTreeAug = TreeBuilder.buildTree(example5.fromTree, commonSubTree.leftCommonSubTree);
-        example5.toTreeAug = TreeBuilder.buildTree(example5.toTree, commonSubTree.leftCommonSubTree);
+        example5.fromTreeAug = new TreeBuilder(example5.fromTree, commonSubTree.leftCommonSubTree).buildTree();
+        example5.toTreeAug = new TreeBuilder(example5.toTree, commonSubTree.leftCommonSubTree).buildTree();
     }
     
     beforeEach(() => {
@@ -195,8 +195,8 @@ describe("Tree printing for common subtree", () => {
 describe("tree printing with no common sub tree", () => {
     function printerFacade(from:Node, to:Node):TreePrinter
     {
-        var fromAug = TreeBuilder.buildTree(from);
-        var toAug = TreeBuilder.buildTree(to);
+        var fromAug = new TreeBuilder(from, null).buildTree();
+        var toAug = new TreeBuilder(to, null).buildTree();
         return new TreePrinter(fromAug, toAug);
     }
 
