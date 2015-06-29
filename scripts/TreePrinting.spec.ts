@@ -190,6 +190,4 @@ describe("Tree printing for common subtree", () => {
         var printer = printerFacade(from, to);
         expect(printer.printTree(1)).toEqual(to);
     });
-
-
 });

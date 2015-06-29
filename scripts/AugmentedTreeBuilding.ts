@@ -18,7 +18,7 @@ module AugmentedTreeBuilding
     
     export class AugmentedTreeBuilder
     {
-        static buildTree(fullTreeRoot:Node, commonSubTreeRoot:Node):TreeElement
+        static buildTree(fullTreeRoot:Node, commonSubTreeRoot:Node = null):TreeElement
         {
             if(fullTreeRoot == null)
                 throw Error("The full tree root must be non-null");
