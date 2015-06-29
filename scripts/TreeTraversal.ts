@@ -1,13 +1,17 @@
 module TreeTraversal
 {
+    interface IHasChildNodes
+    {
+        childNodes:any;
+    }
     export class Traverser
     {
-        static InOrderTraversal(root:Node):Node[] {
+        static InOrderTraversal<T extends IHasChildNodes>(root:T):T[] {
             if(root == null)
                 return [];
 
-            var resultStack:Node[] = [];
-            var navStack:Node[] = [root];
+            var resultStack:T[] = [];
+            var navStack:T[] = [root];
 
             while(navStack.length > 0) {
                 var top = navStack.pop();

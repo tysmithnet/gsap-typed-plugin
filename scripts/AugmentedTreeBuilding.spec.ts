@@ -1,9 +1,12 @@
 ///<reference path="vendor/jasmine.d.ts"/>
 ///<reference path="vendor/jquery.d.ts"/>
 ///<reference path="AugmentedTreeBuilding.ts"/>
+///<reference path="TreeTraversal.ts"/>
 
-var TreeBuilder = AugmentedTreeBuilding.AugmentedTreeBuilder;
-var TreeElement = AugmentedTreeBuilding.TreeElement;
+
+import TreeBuilder = AugmentedTreeBuilding.AugmentedTreeBuilder;
+import TreeElement = AugmentedTreeBuilding.TreeElement;
+import Traverser = TreeTraversal.Traverser;
 var $ = jQuery;
 
 describe("Common sub tree augmented tree building", () => {
@@ -206,5 +209,16 @@ describe("Common sub tree augmented tree building", () => {
         expect(TreeBuilder.buildTree(fullTree1, commonTree1)).toEqual(expectation1);
         var result = TreeBuilder.buildTree(fullTree2, commonTree2);
         expect(result).toEqual(expectation2);
+    });
+
+    it("should build a tree with all nodes not in the common sub tree if the common sub tree is null", () => {
+        var tree = TreeBuilder.buildTree(fullTree0);
+        var traversal = Traverser.InOrderTraversal(tree);
+        var agg = false;
+        for(var i = 0; i < traversal.length; i++)
+        {
+            agg = agg || traversal[i].isInCommonSubTree;
+        }
+        expect(agg).toEqual(false);
     });
 });

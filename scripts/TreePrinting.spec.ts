@@ -191,3 +191,46 @@ describe("Tree printing for common subtree", () => {
         expect(printer.printTree(1)).toEqual(to);
     });
 });
+
+describe("tree printing with no common sub tree", () => {
+    function printerFacade(from:Node, to:Node):TreePrinter
+    {
+        var fromAug = TreeBuilder.buildTree(from);
+        var toAug = TreeBuilder.buildTree(to);
+        return new TreePrinter(fromAug, toAug);
+    }
+
+    it("should return the appropriate tree when a fractional number is passed", () => {
+        var from = $('<div>').html("12345")[0];
+        var to = $('<div>').html("67890")[0];
+        var printer = printerFacade(from, to);
+        expect(printer.printTree(0)).toEqual($('<div>').html("12345")[0]);
+        expect(printer.printTree(.1)).toEqual($('<div>').html("1234")[0]);
+        expect(printer.printTree(.2)).toEqual($('<div>').html("123")[0]);
+        expect(printer.printTree(.3)).toEqual($('<div>').html("12")[0]);
+        expect(printer.printTree(.4)).toEqual($('<div>').html("1")[0]);
+        expect(printer.printTree(.5)).toEqual($('<div>').html("")[0]);
+        expect(printer.printTree(.6)).toEqual($('<div>').html("6")[0]);
+        expect(printer.printTree(.7)).toEqual($('<div>').html("67")[0]);
+        expect(printer.printTree(.8)).toEqual($('<div>').html("678")[0]);
+        expect(printer.printTree(.9)).toEqual($('<div>').html("6789")[0]);
+        expect(printer.printTree(1)).toEqual($('<div>').html("67890")[0]);
+    });
+
+    it("should return the appropriate tree when a fractional number is passed 2", () => {
+        var from = $('<div>').html("")[0];
+        var to = $('<div>').html("1234567890")[0];
+        var printer = printerFacade(from, to);
+        expect(printer.printTree(0)).toEqual($('<div>').html("")[0]);
+        expect(printer.printTree(.1)).toEqual($('<div>').html("1")[0]);
+        expect(printer.printTree(.2)).toEqual($('<div>').html("12")[0]);
+        expect(printer.printTree(.3)).toEqual($('<div>').html("123")[0]);
+        expect(printer.printTree(.4)).toEqual($('<div>').html("1234")[0]);
+        expect(printer.printTree(.5)).toEqual($('<div>').html("12345")[0]);
+        expect(printer.printTree(.6)).toEqual($('<div>').html("123456")[0]);
+        expect(printer.printTree(.7)).toEqual($('<div>').html("1234567")[0]);
+        expect(printer.printTree(.8)).toEqual($('<div>').html("12345678")[0]);
+        expect(printer.printTree(.9)).toEqual($('<div>').html("123456789")[0]);
+        expect(printer.printTree(1)).toEqual($('<div>').html("1234567890")[0]);
+    });
+});
