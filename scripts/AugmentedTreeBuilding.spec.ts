@@ -7,6 +7,8 @@
 import TreeBuilder = AugmentedTreeBuilding.AugmentedTreeBuilder;
 import TreeElement = AugmentedTreeBuilding.TreeElement;
 import Traverser = TreeTraversal.Traverser;
+import DisplayStrategy = AugmentedTreeBuilding.DisplayStrategy;
+
 var $ = jQuery;
 
 describe("Common sub tree augmented tree building", () => {
@@ -36,67 +38,31 @@ describe("Common sub tree augmented tree building", () => {
         var H = $(fullTree0).find('H')[0];
         var I = $(fullTree0).find('I')[0];
 
-        var a = new TreeElement();
-        a.node = A;
-        a.isInCommonSubTree = true;
-        a.parent = null;
-        a.numberKeyPressesToReveal = 0;
+        var a = new TreeElement(null, A, true, new DisplayStrategy(A));
 
-        var b = new TreeElement();
-        b.node = B;
-        b.isInCommonSubTree = true;
-        b.parent = a;
+        var b = new TreeElement(a, B, true, new DisplayStrategy(B));
         a.childNodes.push(b);
-        b.numberKeyPressesToReveal = 0;
 
-        var c = new TreeElement();
-        c.node = C;
-        c.isInCommonSubTree = false;
-        c.parent = a;
+        var c = new TreeElement(a, C, false, new DisplayStrategy(C));
         a.childNodes.push(c);
-        c.numberKeyPressesToReveal = 0;
 
-        var d = new TreeElement();
-        d.node = D;
-        d.isInCommonSubTree = true;
-        d.parent = b;
+        var d = new TreeElement(b, D, true, new DisplayStrategy(D));
         b.childNodes.push(d);
-        d.numberKeyPressesToReveal = 0;
 
-        var e = new TreeElement();
-        e.node = E;
-        e.isInCommonSubTree = true;
-        e.parent = b;
+        var e = new TreeElement(b, E, true, new DisplayStrategy(E));
         b.childNodes.push(e);
-        e.numberKeyPressesToReveal = 0;
 
-        var f = new TreeElement();
-        f.node = F;
-        f.isInCommonSubTree = true;
-        f.parent = e;
+        var f = new TreeElement(e, F, true, new DisplayStrategy(F));
         e.childNodes.push(f);
-        f.numberKeyPressesToReveal = 0;
 
-        var g = new TreeElement();
-        g.node = G;
-        g.isInCommonSubTree = false;
-        g.parent = e;
+        var g = new TreeElement(e, G, false, new DisplayStrategy(G));
         e.childNodes.push(g);
-        g.numberKeyPressesToReveal = 0;
 
-        var h = new TreeElement();
-        h.node = H;
-        h.isInCommonSubTree = false;
-        h.parent = c;
+        var h = new TreeElement(c, H, false, new DisplayStrategy(H));
         c.childNodes.push(h);
-        h.numberKeyPressesToReveal = 0;
 
-        var i = new TreeElement();
-        i.node = I;
-        i.isInCommonSubTree = false;
-        i.parent = h;
+        var i = new TreeElement(h, I, false, new DisplayStrategy(I));
         h.childNodes.push(i);
-        i.numberKeyPressesToReveal = 0;
 
         expectation0 = a;
     }
@@ -110,25 +76,13 @@ describe("Common sub tree augmented tree building", () => {
         var B = $(fullTree1).find('B')[0];
         var C = $(fullTree1).find('C')[0];
 
-        var a = new TreeElement();
-        a.parent = null;
-        a.isInCommonSubTree = true;
-        a.node = A;
-        a.numberKeyPressesToReveal = 0;
+        var a = new TreeElement(null, A, true, new DisplayStrategy(A));
 
-        var b = new TreeElement();
-        b.parent = a;
-        b.isInCommonSubTree = true;
-        b.node = B;
+        var b = new TreeElement(a, B, true, new DisplayStrategy(B));
         a.childNodes.push(b);
-        b.numberKeyPressesToReveal = 0;
 
-        var c = new TreeElement();
-        c.parent = a;
-        c.node = C;
-        c.isInCommonSubTree = false;
+        var c = new TreeElement(a, C, false, new DisplayStrategy(C));
         a.childNodes.push(c);
-        c.numberKeyPressesToReveal = 0;
 
         expectation1 = a;
     }
@@ -144,45 +98,21 @@ describe("Common sub tree augmented tree building", () => {
         var IS = STRONG.childNodes[0];
         var BIGGER = H1.childNodes[0];
 
-        var div = new TreeElement();
-        div.parent = null;
-        div.numberKeyPressesToReveal = 0;
-        div.isInCommonSubTree = true;
-        div.node = fullTree2;
+        var div = new TreeElement(null, fullTree2, true, new DisplayStrategy(fullTree2));
 
-        var this_ = new TreeElement();
-        this_.isInCommonSubTree = true;
-        this_.numberKeyPressesToReveal = 5;
-        this_.node = THIS_;
-        this_.parent = div;
+        var this_ = new TreeElement(div, THIS_, true, new DisplayStrategy(THIS_));
         div.childNodes.push(this_);
 
-        var strong = new TreeElement();
-        strong.isInCommonSubTree = true;
-        strong.numberKeyPressesToReveal = 0;
-        strong.node = STRONG;
-        strong.parent = div;
+        var strong = new TreeElement(div, STRONG, true, new DisplayStrategy(STRONG));
         div.childNodes.push(strong);
 
-        var is = new TreeElement();
-        is.isInCommonSubTree = true;
-        is.numberKeyPressesToReveal = 4;
-        is.node = IS;
-        is.parent = strong;
+        var is = new TreeElement(strong, IS, true, new DisplayStrategy(IS));
         strong.childNodes.push(is);
 
-        var h1 = new TreeElement();
-        h1.isInCommonSubTree = false;
-        h1.numberKeyPressesToReveal = 0;
-        h1.node = H1;
-        h1.parent = div;
+        var h1 = new TreeElement(div, H1, false, new DisplayStrategy(H1));
         div.childNodes.push(h1);
 
-        var bigger = new TreeElement();
-        bigger.isInCommonSubTree = false;
-        bigger.numberKeyPressesToReveal = 6;
-        bigger.node = BIGGER;
-        bigger.parent = h1;
+        var bigger = new TreeElement(h1, BIGGER, false, new DisplayStrategy(BIGGER));
         h1.childNodes.push(bigger);
 
         expectation2 = div;
@@ -220,5 +150,9 @@ describe("Common sub tree augmented tree building", () => {
             agg = agg || traversal[i].isInCommonSubTree;
         }
         expect(agg).toEqual(false);
+    });
+
+    it("should build a ", () => {
+
     });
 });

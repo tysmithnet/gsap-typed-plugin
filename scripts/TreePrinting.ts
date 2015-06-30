@@ -1,7 +1,8 @@
 ///<reference path="AugmentedTreeBuilding.ts"/>
+///<reference path="TreeTraversal.ts"/>
 
 import TreeElement = AugmentedTreeBuilding.TreeElement;
-
+import TreeTraverser = TreeTraversal.Traverser;
 module TreePrinting
 {
     export class TreePrinter
@@ -17,35 +18,15 @@ module TreePrinting
         {
             this.fromTree = fromTree;
             this.toTree = toTree;
-            this.fromTreeInOrderTraversal = TreePrinter.getInOrderTraversal(fromTree);
-            this.toTreeInOrderTraversal = TreePrinter.getInOrderTraversal(toTree);
+            this.fromTreeInOrderTraversal = TreeTraverser.InOrderTraversal(fromTree);
+            this.toTreeInOrderTraversal = TreeTraverser.InOrderTraversal(toTree);
             this.calculateNumberOfBackspacesUntilCommon();
             this.calculateNumberOfKeyPressesUntilFinish();
         }
 
-        static getInOrderTraversal(root:TreeElement)
-        {
-            if(root == null)
-                return [];
-
-            var resultStack:TreeElement[] = [];
-            var navStack:TreeElement[] = [root];
-
-            while(navStack.length > 0) {
-                var top = navStack.pop();
-                resultStack.push(top);
-                for(var i = top.childNodes.length - 1; i >= 0; i--)
-                {
-                    navStack.push(top.childNodes[i]);
-                }
-            }
-
-            return resultStack;
-        }
-
         private calculateNumberOfBackspacesUntilCommon():void
         {
-            var inOrderTraversal = TreePrinter.getInOrderTraversal(this.fromTree);
+            var inOrderTraversal = TreeTraverser.InOrderTraversal(this.fromTree);
             var runningTotal = 0;
             for(var i = inOrderTraversal.length - 1; i >= 0; i--)
             {
@@ -53,7 +34,7 @@ module TreePrinting
                 if(element.isInCommonSubTree)
                     break;
                 else
-                    runningTotal += element.numberKeyPressesToReveal;
+                    runningTotal += element.getNumberKeyPressesToReveal();
             }
             this.numBackSpacesUntilCommon = runningTotal;
         }
@@ -65,7 +46,7 @@ module TreePrinting
 
         private calculateNumberOfKeyPressesUntilFinish():void
         {
-            var inOrderTraversal = TreePrinter.getInOrderTraversal(this.toTree);
+            var inOrderTraversal = TreeTraverser.InOrderTraversal(this.toTree);
             var runningTotal = 0;
             for(var i = 0; i < inOrderTraversal.length; i++)
             {
@@ -73,7 +54,7 @@ module TreePrinting
                 if(element.isInCommonSubTree)
                     continue;
                 else
-                    runningTotal += element.numberKeyPressesToReveal;
+                    runningTotal += element.getNumberKeyPressesToReveal();
             }
             this.numKeyPressesFromCommonUntilFinish = runningTotal;
         }
@@ -87,10 +68,10 @@ module TreePrinting
             {
                 var element = this.fromTreeInOrderTraversal[i];
                 var node = cloneTraversal[i];
-                if(element.numberKeyPressesToReveal + runningTotal < numberOfBackspaces)
+                if(element.getNumberKeyPressesToReveal() + runningTotal < numberOfBackspaces)
                 {
                     node.parentNode.removeChild(node);
-                    runningTotal += element.numberKeyPressesToReveal;
+                    runningTotal += element.getNumberKeyPressesToReveal();
                 }
                 else
                 {
@@ -143,7 +124,7 @@ module TreePrinting
                 }
                 else
                 {
-                    if(runningTotal + top.element.numberKeyPressesToReveal < numKeyPresses)
+                    if(runningTotal + top.element.getNumberKeyPressesToReveal() < numKeyPresses)
                     {
                         if(navStack.length > 1 && top.childIndex == -1)
                         {
@@ -162,7 +143,7 @@ module TreePrinting
                             currentNode = currentNode.parentNode;
                         }
 
-                        runningTotal += top.element.numberKeyPressesToReveal;
+                        runningTotal += top.element.getNumberKeyPressesToReveal();
                     }
                     else
                     {
