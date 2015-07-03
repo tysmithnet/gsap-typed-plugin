@@ -75,15 +75,20 @@ module TreePrinting
                 }
                 else
                 {
-                    if(node.nodeType != Node.TEXT_NODE)
-                        return clone;
-                    var text = (<Text>element.node).wholeText;
-                    var lengthOfRemainingText = text.length - (numberOfBackspaces - runningTotal);
-                    var display = text.substring(0, lengthOfRemainingText);
                     var parent = node.parentNode;
-                    parent.removeChild(node);
-                    if(display != "")
-                        parent.appendChild(document.createTextNode(display));
+                    var newNode = element.displayStrategy.displayNode(node,
+                        element.getNumberKeyPressesToReveal() - (numberOfBackspaces - runningTotal));
+
+                    if(parent != null)
+                    {
+                        parent.removeChild(node);
+                        if(newNode.nodeType != Node.TEXT_NODE || (newNode.nodeType == Node.TEXT_NODE && (<Text>newNode).wholeText != ""))
+                            parent.appendChild(newNode);
+                    }
+                    else
+                    {
+                        return newNode;
+                    }
                     break;
                 }
             }
@@ -147,14 +152,13 @@ module TreePrinting
                     }
                     else
                     {
-                        var text = (<Text>top.element.node).wholeText;
-                        var display = text.substring(0, numKeyPresses - runningTotal);
-                        var textnode = document.createTextNode(display);
+                        var newNode = top.element.displayStrategy.displayNode(top.element.node,
+                            numKeyPresses - runningTotal);
 
                         if(navStack.length < 2)
-                            return textnode;
+                            return newNode;
                         else
-                            currentNode.appendChild(textnode);
+                            currentNode.appendChild(newNode);
 
                         break;
                     }

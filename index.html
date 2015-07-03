@@ -11,26 +11,31 @@
     <script src="scripts/AugmentedTreeBuilding.js"></script>
     <script src="scripts/TreePrinting.js"></script>
     <script type="text/javascript">
-        var TreePrinter = TreePrinting.TreePrinter;
-        var Finder = TreeCommonality.CommonLeftSubTreeFinder;
         var TreeBuilder = AugmentedTreeBuilding.AugmentedTreeBuilder;
-        var $ = jQuery;
-        var Example = (function () {
-            function Example() {
+        var TreeElement = AugmentedTreeBuilding.TreeElement;
+        var Traverser = TreeTraversal.Traverser;
+        var DisplayStrategy = AugmentedTreeBuilding.DisplayStrategy;
+        var example = $('<div>').html("<span class='fa fa-play' />")[0];
+        var matcher = {
+            isMatch: function (node) {
+                return node instanceof HTMLElement && node.classList.contains('fa');
+            },
+            getDisplayStrategy: function (node) {
+                return {
+                    displayNode: function (node, numKeyPresses) {
+                        return node;
+                    },
+                    numberKeyPressesToReveal: 1
+                };
             }
-            return Example;
-        })();
-        example4 = new Example();
-        example4.fromTree = $('<div>').html("<div><div></div></div>")[0];
-        example4.toTree = $('<div>').html("<section><section></section></section>")[0];
-        var commonSubTree = Finder.findCommonLeftSubTree(example4.fromTree, example4.toTree);
-        example4.fromTreeAug = TreeBuilder.buildTree(example4.fromTree, commonSubTree.leftCommonSubTree);
-        example4.toTreeAug = TreeBuilder.buildTree(example4.toTree, commonSubTree.leftCommonSubTree);
-        var printer = new TreePrinter(example4.fromTreeAug, example4.toTreeAug);
-        var result = printer.printTree(1);
-        $(function(){
-           $('body')[0].appendChild(result);
-        });
+        };
+        var root = new TreeElement(null, example, false, new DisplayStrategy(example));
+        var span = new TreeElement(root, example.childNodes[0], false, matcher.getDisplayStrategy(example.childNodes[0]));
+        root.childNodes.push(span);
+        var builder = new TreeBuilder(example, null);
+        builder.addMatcher(matcher);
+        var tree = builder.buildTree();
+        console.log(true);
     </script>
 </head>
 <body>

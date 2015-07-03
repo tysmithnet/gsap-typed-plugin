@@ -8,6 +8,8 @@ import TreeBuilder = AugmentedTreeBuilding.AugmentedTreeBuilder;
 import TreeElement = AugmentedTreeBuilding.TreeElement;
 import Traverser = TreeTraversal.Traverser;
 import DisplayStrategy = AugmentedTreeBuilding.DisplayStrategy;
+import IDisplalyStrategy = AugmentedTreeBuilding.IDisplayStrategy;
+import IMatcher = AugmentedTreeBuilding.IMatcher;
 
 var $ = jQuery;
 
@@ -152,7 +154,34 @@ describe("Common sub tree augmented tree building", () => {
         expect(agg).toEqual(false);
     });
 
-    it("should build a ", () => {
+});
 
+describe("Tree building with custom strategy", () => {
+    it("should use match using a customer matcher if provided", () => {
+        var example = $('<div>').html("<span class='fa fa-play' />")[0];
+        var customDisplayStrat = (node:Node, numKeyPresses):Node => {
+            return node;
+        };
+
+        var matcher:IMatcher = {
+            isMatch:(node:Node):boolean =>
+            {
+                return node instanceof HTMLElement && (<HTMLElement>node).classList.contains('fa');
+            },
+            getDisplayStrategy: (node:Node):IDisplalyStrategy => {
+                return {
+                    displayNode: customDisplayStrat,
+                    numberKeyPressesToReveal: 1
+                };
+            }
+        };
+        var root = new TreeElement(null, example, false, new DisplayStrategy(example));
+        var span = new TreeElement(root, example.childNodes[0], false, matcher.getDisplayStrategy(example.childNodes[0]));
+        root.childNodes.push(span);
+        var builder = new TreeBuilder(example, null);
+        builder.addMatcher(matcher);
+        expect(builder.buildTree()).toEqual(root);
     });
+
+
 });

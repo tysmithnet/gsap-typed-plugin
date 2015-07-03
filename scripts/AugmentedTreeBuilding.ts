@@ -72,7 +72,7 @@ module AugmentedTreeBuilding
     export interface IMatcher
     {
         isMatch(node:Node):boolean;
-        getDisplayStategy(node:Node): IDisplayStrategy;
+        getDisplayStrategy(node:Node): IDisplayStrategy;
     }
 
     export class Matcher implements IMatcher
@@ -81,7 +81,7 @@ module AugmentedTreeBuilding
             return true;
         }
 
-        getDisplayStategy(node:Node):IDisplayStrategy {
+        getDisplayStrategy(node:Node):IDisplayStrategy {
             return new DisplayStrategy(node);
         }
     }
@@ -124,7 +124,7 @@ module AugmentedTreeBuilding
                     var matcher = this.matchers[i];
                     if(matcher.isMatch(node))
                     {
-                        displayStrategy = matcher.getDisplayStategy(node);
+                        displayStrategy = matcher.getDisplayStrategy(node);
                     }
                 }
 

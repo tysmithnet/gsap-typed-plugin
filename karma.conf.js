@@ -1,5 +1,5 @@
 // Karma configuration
-// Generated on Tue Jun 16 2015 21:47:14 GMT-0400 (Eastern Daylight Time)
+// Generated on Tue Jun 30 2015 23:01:49 GMT-0400 (Eastern Daylight Time)
 
 module.exports = function(config) {
   config.set({
@@ -36,6 +36,7 @@ module.exports = function(config) {
       'scripts/{*.js,!(vendor)/**/*.js}': ['coverage']
     },
 
+
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
@@ -56,16 +57,16 @@ module.exports = function(config) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
+    autoWatch: false,
 
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false
-  });
-};
+  })
+}
