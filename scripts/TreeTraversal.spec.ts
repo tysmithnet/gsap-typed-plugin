@@ -59,8 +59,4 @@ describe("Common left subtree finding", () => {
         exampleTree2 = document.createElement("A");
         exampleTree2.innerHTML = "<B></B><C></C>";
     });
-
-    it("should throw an error if either of the supplied elements is null", () => {
-
-    });
 });

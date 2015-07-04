@@ -5,40 +5,38 @@
     <title></title>
 
     <script src="scripts/vendor/jquery-2.1.4.js"></script>
+    <script src="scripts/vendor/TweenMax.js"></script>
+    <script src="scripts/vendor/TimelineMax.js"></script>
     <script src="scripts/TreeTraversal.js"></script>
     <script src="scripts/NodeCommonality.js"></script>
     <script src="scripts/TreeCommonality.js"></script>
     <script src="scripts/AugmentedTreeBuilding.js"></script>
     <script src="scripts/TreePrinting.js"></script>
+    <script src="scripts/TypedPlugin.js"></script>
+    <script>
+        var typedPlugin = new TypedPlugin();
+        var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(global) !== "undefined") ? global : this || window; //helps ensure compatibility with AMD/RequireJS and CommonJS/Node
+        (_gsScope._gsQueue || (_gsScope._gsQueue = [])).push( function() {
+            //ignore the line above this and at the very end - those are for ensuring things load in the proper order
+            "use strict";
+
+            _gsScope._gsDefine.plugin(typedPlugin);
+
+        }); if (_gsScope._gsDefine) { _gsScope._gsQueue.pop()(); }
+    </script>
+
     <script type="text/javascript">
-        var TreeBuilder = AugmentedTreeBuilding.AugmentedTreeBuilder;
-        var TreeElement = AugmentedTreeBuilding.TreeElement;
-        var Traverser = TreeTraversal.Traverser;
-        var DisplayStrategy = AugmentedTreeBuilding.DisplayStrategy;
-        var example = $('<div>').html("<span class='fa fa-play' />")[0];
-        var matcher = {
-            isMatch: function (node) {
-                return node instanceof HTMLElement && node.classList.contains('fa');
-            },
-            getDisplayStrategy: function (node) {
-                return {
-                    displayNode: function (node, numKeyPresses) {
-                        return node;
-                    },
-                    numberKeyPressesToReveal: 1
-                };
-            }
-        };
-        var root = new TreeElement(null, example, false, new DisplayStrategy(example));
-        var span = new TreeElement(root, example.childNodes[0], false, matcher.getDisplayStrategy(example.childNodes[0]));
-        root.childNodes.push(span);
-        var builder = new TreeBuilder(example, null);
-        builder.addMatcher(matcher);
-        var tree = builder.buildTree();
-        console.log(true);
+        $(function(){
+            var clone = $('#a').clone();
+            clone.find("h2").replaceWith("<h1>bigger</h1>");
+            TweenMax.to("#a", 5, {typed:{stopOnCommon: false, to: clone[0]}, attr: {color: "red"}});
+        });
     </script>
 </head>
 <body>
-
+    <div id="a">
+        this <strong> is </strong><h2>big</h2>
+    </div>
 </body>
+
 </html>
