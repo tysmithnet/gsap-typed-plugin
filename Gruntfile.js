@@ -27,12 +27,19 @@ module.exports = function(grunt) {
                     ]
                 }
             }
+        },
+        uglify: {
+            dist: {
+                files: {
+                    'dist/gsap-typed-plugin.min.js': 'dist/gsap-typed-plugin.js'
+                }
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.loadNpmTasks('grunt-typescript');
-
-    grunt.registerTask('default', ['typescript:dist', 'string-replace']);
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.registerTask('default', ['typescript:dist', 'string-replace:dist', 'uglify:dist']);
 
 };
