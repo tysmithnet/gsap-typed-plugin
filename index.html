@@ -29,14 +29,12 @@
         $(function(){
             var clone = $('#a').clone();
             clone.find("h2").replaceWith("<h1>bigger</h1>");
-            TweenMax.to("#a", 5, {typed:{stopOnCommon: false, to: clone[0]}, attr: {color: "red"}});
+            TweenMax.from("#a", 5, {typed:{stopOnCommon: true, to: clone[0].childNodes}});
         });
     </script>
 </head>
 <body>
-    <div id="a">
-        this <strong> is </strong><h2>big</h2>
-    </div>
+    <div id="a">this <strong> is </strong><h2>big</h2></div>
 </body>
 
 </html>

@@ -4,10 +4,14 @@
 
 ///<reference path="vendor/greensock.d.ts"/>
 
+import Finder = TreeCommonality.CommonLeftSubTreeFinder;
+import TreeBuilder = AugmentedTreeBuilding.AugmentedTreeBuilder;
+import Printer = TreePrinting.TreePrinter;
+
 interface IPluginOptions
 {
     stopOnCommon:boolean;
-    to:Node;
+    to:Node[]
 }
 
 class TypedPlugin
@@ -15,25 +19,34 @@ class TypedPlugin
     propName:string = "typed";
     API:number = 2;
     version:string = "0.0.1";
-    parent:Node;
-    currentChild:Node;
     printer:TreePrinting.TreePrinter;
+    target:Node;
 
     init(target:any, value:IPluginOptions, tween: Tween):boolean
     {
         if(!(target instanceof Node))
+        {
             return false;
+        }
 
-        this.parent = target.parentNode;
-        this.currentChild = target;
-        var commonTree:Node = null;
+        this.target = target;
+        var targetClone = document.createElement("div");
+        for(var i = 0; i < target.childNodes.length; i++)
+            targetClone.appendChild(target.childNodes[i].cloneNode(true));
+
+        var fakeToRoot = document.createElement("div");
+        for(var i = 0 ; i < value.to.length; i++)
+            fakeToRoot.appendChild(value.to[i].cloneNode(true));
+
+        var commonSubtree:Node = null;
         if(value.stopOnCommon)
         {
-            commonTree = TreeCommonality.CommonLeftSubTreeFinder.findCommonLeftSubTree(target, value.to).leftCommonSubTree;
+            commonSubtree = Finder.findCommonLeftSubTree(targetClone, fakeToRoot).leftCommonSubTree;
         }
-        var fromAug = new AugmentedTreeBuilding.AugmentedTreeBuilder(target, commonTree).buildTree();
-        var toAug = new AugmentedTreeBuilding.AugmentedTreeBuilder(value.to, commonTree).buildTree();
-        this.printer = new TreePrinting.TreePrinter(fromAug, toAug);
+
+        var fromAug = new TreeBuilder(targetClone, commonSubtree).buildTree();
+        var toAug = new TreeBuilder(fakeToRoot, commonSubtree).buildTree();
+        this.printer = new Printer(fromAug, toAug);
 
         return true;
     }
@@ -41,7 +54,10 @@ class TypedPlugin
     set(ratio:number):void
     {
         var newContent = this.printer.printTree(ratio);
-        this.parent.replaceChild(newContent, this.currentChild);
-        this.currentChild = newContent;
+        while(this.target.firstChild)
+            this.target.removeChild(this.target.firstChild);
+
+        while(newContent.firstChild)
+            this.target.appendChild(newContent.firstChild);
     }
 }
