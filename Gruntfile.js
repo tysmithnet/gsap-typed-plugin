@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 
     grunt.initConfig({
-        typescript: {
+        ts: {
             dist: {
                 src: [
                     "scripts/TreeTraversal.ts",
@@ -10,8 +10,22 @@ module.exports = function(grunt) {
                     "scripts/AugmentedTreeBuilding.ts",
                     "scripts/TreePrinting.ts",
                     "scripts/TypedPlugin.ts"],
-                dest: "scripts/src.js",
+                options: {
+                    comments: true
+                }
             }
+        },
+        concat: {
+          dist: {
+              src: [
+                  "scripts/TreeTraversal.js",
+                  "scripts/NodeCommonality.js",
+                  "scripts/TreeCommonality.js",
+                  "scripts/AugmentedTreeBuilding.js",
+                  "scripts/TreePrinting.js",
+                  "scripts/TypedPlugin.js"],
+              dest: 'scripts/src.js'
+          }
         },
         'string-replace': {
             dist: {
@@ -38,8 +52,9 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-string-replace');
-    grunt.loadNpmTasks('grunt-typescript');
+    grunt.loadNpmTasks('grunt-ts');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.registerTask('default', ['typescript:dist', 'string-replace:dist', 'uglify:dist']);
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.registerTask('default', ['ts:dist', 'concat:dist', 'string-replace:dist', 'uglify:dist']);
 
 };

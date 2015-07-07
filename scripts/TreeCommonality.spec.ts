@@ -4,7 +4,7 @@
 
 var finder = TreeCommonality.CommonLeftSubTreeFinder;
 
-describe("", () => {
+describe("Tree commonality", () => {
     var example0Left;
     var example0Right;
     var example0Expectation;
@@ -35,13 +35,20 @@ describe("", () => {
         }).toThrowError();
     });
 
-    it("should return an null root for the left common subtree if the trees have nothing in common", () => {
-        expect(finder.findCommonLeftSubTree(example1Left, example1Right)).toEqual(new TreeCommonality.CommonLeftSubTree());
+    it("should return a nnull root for the left common subtree if the trees have nothing in common", () => {
+        var result = finder.findCommonLeftSubTree(example1Left, example1Right);
+        expect(result).toDeepDiffEquals(new TreeCommonality.CommonLeftSubTree());
     });
 
     it("should return a copy of both trees if they are the same", () => {
         expect(finder.findCommonLeftSubTree(example0Left, example0Left).leftCommonSubTree).toEqual(example0Left);
         expect(finder.findCommonLeftSubTree(example0Right, example0Right).leftCommonSubTree).toEqual(example0Right);
+    });
+
+    it("should return the common part of a text node if the difference lies within a text node", () => {
+        var left = document.createTextNode("0123456");
+        var right = document.createTextNode("01234");
+        expect(finder.findCommonLeftSubTree(left, right).leftCommonSubTree).toEqual(document.createTextNode("01234"));
     });
 
     it("should correctly identify common left subtrees", () => {

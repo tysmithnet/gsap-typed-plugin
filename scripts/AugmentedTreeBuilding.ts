@@ -104,6 +104,7 @@ module AugmentedTreeBuilding
             this.matchers.push(matcher);
         }
 
+        // call this to actually produce the tree
         buildTree():TreeElement
         {
             if(this.fullTreeRoot == null)

@@ -35,22 +35,5 @@ describe("init", () => {
 });
 
 describe("set", () => {
-   it("should swap out the target element for the created element after set is called", () => {
-       var parent = document.createElement("div");
-       var from = $("<div>")[0];
-       parent.appendChild(from);
-       var to = $("<div>").html("12")[0];
-       var values:IPluginOptions = {
-           stopOnCommon: true,
-           to: to
-       };
-       var plugin = new TypedPlugin();
-       plugin.init(from, values, null);
-       plugin.set(0);
-       expect(parent.childNodes[0]).toEqual($("<div>").html("")[0]);
-       plugin.set(.5);
-       expect(parent.childNodes[0]).toEqual($("<div>").html("1")[0]);
-       plugin.set(1);
-       expect(parent.childNodes[0]).toEqual($("<div>").html("12")[0]);
-   });
+
 });

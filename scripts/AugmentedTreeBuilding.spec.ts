@@ -13,6 +13,23 @@ import IMatcher = AugmentedTreeBuilding.IMatcher;
 
 var $ = jQuery;
 
+beforeEach(() => {
+    jasmine.addMatchers({
+        toDeepDiffEquals: () => {
+            return {
+                compare: (actual:any, expected:any) => {
+                    var diff = DeepDiff.diff(actual, expected);
+                    var result = {};
+                    result.pass = !diff;
+                    if(!result.pass)
+                        result.message = JSON.stringify(diff);
+                    return result;
+                }
+            }
+        }
+    });
+});
+
 describe("Common sub tree augmented tree building", () => {
     var commonTree0;
     var fullTree0;
@@ -120,6 +137,7 @@ describe("Common sub tree augmented tree building", () => {
         expectation2 = div;
     }
 
+
     beforeEach(() => {
         buildCommonTree0();
         buildCommonTree1();
@@ -137,10 +155,11 @@ describe("Common sub tree augmented tree building", () => {
     });
 
     it("should build an augmented tree", () => {
-        expect(new TreeBuilder(fullTree0, commonTree0).buildTree()).toEqual(expectation0);
-        expect(new TreeBuilder(fullTree1, commonTree1).buildTree()).toEqual(expectation1);
+        var result = new TreeBuilder(fullTree0, commonTree0).buildTree();
+        expect(result).toDeepDiffEquals(expectation0);
+        expect(new TreeBuilder(fullTree1, commonTree1).buildTree()).toDeepDiffEquals(expectation1);
         var result = new TreeBuilder(fullTree2, commonTree2).buildTree();
-        expect(result).toEqual(expectation2);
+        expect(result).toDeepDiffEquals(expectation2);
     });
 
     it("should build a tree with all nodes not in the common sub tree if the common sub tree is null", () => {
@@ -157,10 +176,17 @@ describe("Common sub tree augmented tree building", () => {
 });
 
 describe("Tree building with custom strategy", () => {
-    it("should use match using a customer matcher if provided", () => {
+    it("should match using a customer matcher if provided", () => {
         var example = $('<div>').html("<span class='fa fa-play' />")[0];
         var customDisplayStrat = (node:Node, numKeyPresses):Node => {
             return node;
+        };
+
+        var getDisplayStrat = (node:Node):IDisplalyStrategy => {
+            return {
+                displayNode: customDisplayStrat,
+                numberKeyPressesToReveal: 1
+            };
         };
 
         var matcher:IMatcher = {
@@ -168,12 +194,7 @@ describe("Tree building with custom strategy", () => {
             {
                 return node instanceof HTMLElement && (<HTMLElement>node).classList.contains('fa');
             },
-            getDisplayStrategy: (node:Node):IDisplalyStrategy => {
-                return {
-                    displayNode: customDisplayStrat,
-                    numberKeyPressesToReveal: 1
-                };
-            }
+            getDisplayStrategy: getDisplayStrat
         };
         var root = new TreeElement(null, example, false, new DisplayStrategy(example));
         var span = new TreeElement(root, example.childNodes[0], false, matcher.getDisplayStrategy(example.childNodes[0]));
