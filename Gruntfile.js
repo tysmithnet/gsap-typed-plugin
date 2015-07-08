@@ -36,7 +36,7 @@ module.exports = function(grunt) {
                     replacements: [
                         {
                             pattern: "/**__CODE_GOES_HERE__**/",
-                            replacement: "<%= grunt.file.read('scripts/src.js') %>"
+                            replacement: "<%= grunt.file.read('dist/src.js') %>"
                         }
                     ]
                 }

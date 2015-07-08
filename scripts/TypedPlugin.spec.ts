@@ -35,5 +35,17 @@ describe("init", () => {
 });
 
 describe("set", () => {
-
+    it("should replace the child nodes, but leave the root node intact", () => {
+        var root = $('<div id="a">').text("hi")[0];
+        var strong = document.createTextNode("hello");
+        var to = [strong];
+        var values:IPluginOptions = {
+            stopOnCommon: false,
+            to: to
+        };
+        var plugin = new TypedPlugin();
+        plugin.init(root, values, null);
+        plugin.set(1);
+        expect($(root).text()).toEqual('hello');
+    });
 });
