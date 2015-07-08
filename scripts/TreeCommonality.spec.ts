@@ -54,7 +54,7 @@ describe("Tree commonality", () => {
 
     it("should return a nnull root for the left common subtree if the trees have nothing in common", () => {
         var result = finder.findCommonLeftSubTree(example1Left, example1Right);
-        expect(result).toDeepDiffEquals(new TreeCommonality.CommonLeftSubTree());
+        expect(result).toEqual(new TreeCommonality.CommonLeftSubTree());
     });
 
     it("should return a copy of both trees if they are the same", () => {

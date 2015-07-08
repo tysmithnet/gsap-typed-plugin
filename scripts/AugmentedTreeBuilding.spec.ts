@@ -15,7 +15,7 @@ var $ = jQuery;
 
 beforeEach(() => {
     jasmine.addMatchers({
-        toDeepDiffEquals: () => {
+        toEqual: () => {
             return {
                 compare: (actual:any, expected:any) => {
                     var diff = DeepDiff.diff(actual, expected);
@@ -157,10 +157,10 @@ describe("Common sub tree augmented tree building", () => {
 
     it("should build an augmented tree", () => {
         var result = new TreeBuilder(fullTree0, commonTree0).buildTree();
-        expect(result).toDeepDiffEquals(expectation0);
-        expect(new TreeBuilder(fullTree1, commonTree1).buildTree()).toDeepDiffEquals(expectation1);
+        expect(result).toEqual(expectation0);
+        expect(new TreeBuilder(fullTree1, commonTree1).buildTree()).toEqual(expectation1);
         var result = new TreeBuilder(fullTree2, commonTree2).buildTree();
-        expect(result).toDeepDiffEquals(expectation2);
+        expect(result).toEqual(expectation2);
     });
 
     it("should build a tree with all nodes not in the common sub tree if the common sub tree is null", () => {
@@ -202,7 +202,7 @@ describe("Tree building with custom strategy", () => {
         root.childNodes.push(span);
         var builder = new TreeBuilder(example, null);
         builder.addMatcher(matcher);
-        expect(builder.buildTree()).toDeepDiffEquals(root);
+        expect(builder.buildTree()).toEqual(root);
     });
 
 

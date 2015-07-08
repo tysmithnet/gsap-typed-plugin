@@ -16,7 +16,7 @@ describe("init", () => {
 
         var values:IPluginOptions = {
             stopOnCommon: true,
-            to: $('<div>').html("hi")[0]
+            to: $('<div>').html("hi")[0].childNodes
         };
         expect(new TypedPlugin().init(target, values, null)).toEqual(true);
     });
@@ -28,7 +28,7 @@ describe("init", () => {
 
         var values:IPluginOptions = {
             stopOnCommon: false,
-            to: $('<div>').html("hi")[0]
+            to: $('<div>').html("hi")[0].childNodes
         };
         expect(new TypedPlugin().init(target, values, null)).toEqual(true);
     });

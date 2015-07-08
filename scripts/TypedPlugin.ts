@@ -11,7 +11,7 @@ import Printer = TreePrinting.TreePrinter;
 interface IPluginOptions
 {
     stopOnCommon:boolean;
-    to:Node[]
+    to:Node[] | NodeList;
 }
 
 class TypedPlugin
