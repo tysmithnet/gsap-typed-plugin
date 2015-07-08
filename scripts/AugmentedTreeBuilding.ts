@@ -52,14 +52,14 @@ module AugmentedTreeBuilding
 
             if(this.node.nodeType == Node.TEXT_NODE)
             {
-                this.numberKeyPressesToReveal = (<Text>this.node).wholeText.length;
+                this.numberKeyPressesToReveal = (<Text>this.node).textContent.length;
             }
         }
 
         displayNode(node:Node, numKeyPresses):Node {
             if(node.nodeType == Node.TEXT_NODE)
             {
-                var text = (<Text>node).wholeText;
+                var text = (<Text>node).textContent;
                 return document.createTextNode(text.substring(0, numKeyPresses));
             }
             else
@@ -97,6 +97,22 @@ module AugmentedTreeBuilding
         constructor(fullTreeRoot:Node, commonSubTreeRoot:Node) {
             this.fullTreeRoot = fullTreeRoot;
             this.commonSubTreeRoot = commonSubTreeRoot;
+            this.splitLastNode();
+        }
+
+        private splitLastNode():void
+        {
+            var fullTraversal = Traverser.InOrderTraversal(this.fullTreeRoot);
+            var commonTraversal = Traverser.InOrderTraversal(this.commonSubTreeRoot);
+            var lastFull = fullTraversal[commonTraversal.length - 1];
+            var parent = lastFull.parentNode;
+            var lastCommon = commonTraversal[commonTraversal.length - 1];
+            if(lastFull.nodeType != Node.TEXT_NODE)
+                return;
+            if((<Text>lastFull).textContent == (<Text>lastCommon).textContent)
+                return;
+            var length = (<Text>lastCommon).textContent.length;
+            (<Text>lastFull).splitText(length);
         }
 
         addMatcher(matcher:IMatcher)

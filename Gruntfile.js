@@ -24,13 +24,13 @@ module.exports = function(grunt) {
                   "scripts/AugmentedTreeBuilding.js",
                   "scripts/TreePrinting.js",
                   "scripts/TypedPlugin.js"],
-              dest: 'scripts/src.js'
+              dest: 'dist/src.js'
           }
         },
         'string-replace': {
             dist: {
                 files: {
-                    'dist/gsap-typed-plugin.js': 'scripts/template.js'
+                    'dist/gsap-typed-plugin.js': 'dist/template.js'
                 },
                 options: {
                     replacements: [

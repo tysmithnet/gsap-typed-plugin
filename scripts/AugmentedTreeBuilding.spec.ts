@@ -13,23 +13,6 @@ import IMatcher = AugmentedTreeBuilding.IMatcher;
 
 var $ = jQuery;
 
-beforeEach(() => {
-    jasmine.addMatchers({
-        toEqual: () => {
-            return {
-                compare: (actual:any, expected:any) => {
-                    var diff = DeepDiff.diff(actual, expected);
-                    var result = {};
-                    result.pass = !diff;
-                    if(!result.pass)
-                        result.message = JSON.stringify(diff);
-                    return result;
-                }
-            }
-        }
-    });
-});
-
 describe("Common sub tree augmented tree building", () => {
     var commonTree0;
     var fullTree0;
@@ -172,6 +155,23 @@ describe("Common sub tree augmented tree building", () => {
             agg = agg || traversal[i].isInCommonSubTree;
         }
         expect(agg).toEqual(false);
+    });
+
+    it("should split a common node into 2 if part of the text node is common, and the other part is not", () => {
+        var commonTree = $('<div>').text('abc')[0];
+        var fullTree = $('<div>').text('abcdef')[0];
+
+        var root = new TreeElement(null, fullTree, true, new DisplayStrategy(fullTree));
+
+        var abcNode = document.createTextNode("abc");
+        var abc = new TreeElement(root, abcNode, true, new DisplayStrategy(abcNode));
+        root.childNodes.push(abc);
+
+        var defNode = document.createTextNode("def");
+        var def = new TreeElement(root, defNode, false, new DisplayStrategy(defNode));
+        root.childNodes.push(def);
+
+        expect(new TreeBuilder(fullTree, commonTree).buildTree()).toEqual(root);
     });
 
 });
