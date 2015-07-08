@@ -8,6 +8,7 @@
 import TreePrinter = TreePrinting.TreePrinter;
 import Finder = TreeCommonality.CommonLeftSubTreeFinder;
 import TreeBuilder = AugmentedTreeBuilding.AugmentedTreeBuilder;
+import diffDom = diffDOM;
 var $ = jQuery;
 
 class Example

@@ -15,6 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'scripts/vendor/diffDOM.js',
       'scripts/vendor/deep-diff.js',
       'scripts/vendor/*.js',
       'scripts/TreeTraversal.js',

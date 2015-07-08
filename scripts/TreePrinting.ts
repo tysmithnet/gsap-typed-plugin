@@ -82,7 +82,7 @@ module TreePrinting
                     if(parent != null)
                     {
                         parent.removeChild(node);
-                        if(newNode.nodeType != Node.TEXT_NODE || (newNode.nodeType == Node.TEXT_NODE && (<Text>newNode).wholeText != ""))
+                        if(newNode.nodeType != Node.TEXT_NODE || (newNode.nodeType == Node.TEXT_NODE && (<Text>newNode).textContent != ""))
                             parent.appendChild(newNode);
                     }
                     else
@@ -167,16 +167,30 @@ module TreePrinting
             return clone;
         }
 
+        static normalizeTree(root:Node):void
+        {
+            if(!root)
+                return;
+
+            root.normalize();
+            for(var i = 0; i < root.childNodes.length; i++)
+                TreePrinter.normalizeTree(root.childNodes[i]);
+        }
+
         printTree(percentCompleteToDisplay:number):Node
         {
             percentCompleteToDisplay = Math.min(1, percentCompleteToDisplay);
             percentCompleteToDisplay = Math.max(0, percentCompleteToDisplay);
             var total = this.getTotalKeyPressCount();
             var keyPressesFromPercent = (total * percentCompleteToDisplay) | 0;
+            var result: Node;
             if(percentCompleteToDisplay != 1 && keyPressesFromPercent <= this.numBackSpacesUntilCommon)
-                return this.showRemainingBackspaceContent(keyPressesFromPercent);
+                result = this.showRemainingBackspaceContent(keyPressesFromPercent);
             else
-                return this.showRemainingTypedContent(keyPressesFromPercent - this.numBackSpacesUntilCommon);
+                result = this.showRemainingTypedContent(keyPressesFromPercent - this.numBackSpacesUntilCommon);
+
+            TreePrinter.normalizeTree(result);
+            return result;
         }
     }
 }

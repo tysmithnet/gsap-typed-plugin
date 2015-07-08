@@ -97,15 +97,17 @@ module AugmentedTreeBuilding
         constructor(fullTreeRoot:Node, commonSubTreeRoot:Node) {
             this.fullTreeRoot = fullTreeRoot;
             this.commonSubTreeRoot = commonSubTreeRoot;
-            this.splitLastNode();
+            if(commonSubTreeRoot)
+                this.splitLastNode();
         }
+
+
 
         private splitLastNode():void
         {
             var fullTraversal = Traverser.InOrderTraversal(this.fullTreeRoot);
             var commonTraversal = Traverser.InOrderTraversal(this.commonSubTreeRoot);
             var lastFull = fullTraversal[commonTraversal.length - 1];
-            var parent = lastFull.parentNode;
             var lastCommon = commonTraversal[commonTraversal.length - 1];
             if(lastFull.nodeType != Node.TEXT_NODE)
                 return;
