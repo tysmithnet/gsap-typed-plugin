@@ -7,33 +7,20 @@
     <script src="scripts/vendor/jquery-2.1.4.js"></script>
     <script src="scripts/vendor/TweenMax.js"></script>
     <script src="scripts/vendor/TimelineMax.js"></script>
-    <script src="scripts/TreeTraversal.js"></script>
-    <script src="scripts/NodeCommonality.js"></script>
-    <script src="scripts/TreeCommonality.js"></script>
-    <script src="scripts/AugmentedTreeBuilding.js"></script>
-    <script src="scripts/TreePrinting.js"></script>
-    <script src="scripts/TypedPlugin.js"></script>
-    <script>
-        var typedPlugin = new TypedPlugin();
-        var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(global) !== "undefined") ? global : this || window; //helps ensure compatibility with AMD/RequireJS and CommonJS/Node
-        (_gsScope._gsQueue || (_gsScope._gsQueue = [])).push( function() {
-            //ignore the line above this and at the very end - those are for ensuring things load in the proper order
-            "use strict";
-
-            _gsScope._gsDefine.plugin(typedPlugin);
-
-        }); if (_gsScope._gsDefine) { _gsScope._gsQueue.pop()(); }
-    </script>
+    <script src="dist/gsap-typed-plugin.js"></script>
 
     <script type="text/javascript">
         $(function(){
-            var clone = $('#a').clone().text("welcome to ty's site");
-            TweenMax.from("#a", 3, {typed:{stopOnCommon: true, to: clone[0].childNodes}, ease: Linear.easeNone});
+            var tl = new TimelineMax();
+            tl.to('#target', 3, {typed:{to:[document.createTextNode("gsap-typed-plugin is a plugin for greensock")], stopOnCommon:false}, ease: Linear.easeNone});
+            tl.to('#target', 2, {typed:{to:[document.createTextNode("it allows for content to be typed out like typed.js")], stopOnCommon:false}});
+            tl.to('#target', 5, {typed:{to:[document.createTextNode("but unlike typed.js it supports "), $('<strong>').text('html tags')[0]], stopOnCommon:false}});
+            tl.to('#target', 5, {typed:{to:[document.createTextNode("but unlike typed.js it supports stopping on common content")], stopOnCommon:true}});
         });
     </script>
 </head>
 <body>
-    <h1 id="a">welcome to the show</h1>
+    <div id="target"></div>
 </body>
 
 </html>
