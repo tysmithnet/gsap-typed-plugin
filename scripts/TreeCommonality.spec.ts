@@ -4,6 +4,23 @@
 
 var finder = TreeCommonality.CommonLeftSubTreeFinder;
 
+describe("areNodesTextNodes", () => {
+    it("should return false if nothing is passed in", () => {
+        expect(finder.areNodesTextNodes()).toEqual(false);
+        expect(finder.areNodesTextNodes(null)).toEqual(false);
+    });
+
+    it("should return false if at least one is not a text node", () => {
+        expect(finder.areNodesTextNodes(document.createElement("div"))).toEqual(false);
+        expect(finder.areNodesTextNodes(document.createElement("div"), document.createTextNode("hi"))).toEqual(false);
+    });
+
+    it("shoudl return true if all are test nodes", () => {
+        expect(finder.areNodesTextNodes(document.createTextNode("a"))).toEqual(true);
+        expect(finder.areNodesTextNodes(document.createTextNode("a"), document.createTextNode("b"))).toEqual(true);
+    });
+});
+
 describe("Tree commonality", () => {
     var example0Left;
     var example0Right;
@@ -49,6 +66,21 @@ describe("Tree commonality", () => {
         var left = document.createTextNode("0123456");
         var right = document.createTextNode("01234");
         expect(finder.findCommonLeftSubTree(left, right).leftCommonSubTree).toEqual(document.createTextNode("01234"));
+    });
+
+    it("should return an empty text node as common if that is the only common part of a text node", () => {
+        var left = document.createTextNode("abc");
+        var right = document.createTextNode("def");
+        expect(finder.findCommonLeftSubTree(left, right).leftCommonSubTree).toEqual(document.createTextNode(""));
+
+    });
+
+    it("should return return an empty node as a child if the two text nodes are not the same", () => {
+        var left = $('<div>').text('abc')[0];
+        var right = $('<div>').text('def')[0];
+        var expectation = document.createElement("div");
+        expectation.appendChild(document.createTextNode(''));
+        expect(finder.findCommonLeftSubTree(left, right).leftCommonSubTree).toEqual(expectation);
     });
 
     it("should correctly identify common left subtrees", () => {

@@ -152,6 +152,7 @@ describe("Common sub tree augmented tree building", () => {
         expect(() => {
             new TreeBuilder(null, commonTree0).buildTree();
         }).toThrowError();
+
     });
 
     it("should build an augmented tree", () => {
@@ -201,7 +202,7 @@ describe("Tree building with custom strategy", () => {
         root.childNodes.push(span);
         var builder = new TreeBuilder(example, null);
         builder.addMatcher(matcher);
-        expect(builder.buildTree()).toEqual(root);
+        expect(builder.buildTree()).toDeepDiffEquals(root);
     });
 
 

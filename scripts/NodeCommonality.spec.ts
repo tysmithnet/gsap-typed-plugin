@@ -5,6 +5,27 @@
 var $ = jQuery;
 var comparer = NodeCommonality.NodeComparisonStrategy;
 
+describe("Common substring finding", () => {
+    it("should return null if either is null", () => {
+        expect(comparer.findCommonSubString(null, "")).toEqual(null);
+        expect(comparer.findCommonSubString("", null)).toEqual(null);
+        expect(comparer.findCommonSubString(null, null)).toEqual(null);
+    });
+
+    it("should return an empty string if there is no common substring", () => {
+        expect(comparer.findCommonSubString("abc", "def")).toEqual("");
+    });
+
+    it("should return the full string if bother are the same", () => {
+        expect(comparer.findCommonSubString("abc", "abc")).toEqual("abc");
+        expect(comparer.findCommonSubString("", "")).toEqual("");
+    });
+
+    it("should return the common substring if there is one", () => {
+        expect(comparer.findCommonSubString("abcde", "abc")).toEqual("abc");
+    });
+});
+
 describe("Default node comparison strategy", () => {
     it("should return true if both are null", () => {
         expect(comparer.areEqual(null, null)).toEqual(true);

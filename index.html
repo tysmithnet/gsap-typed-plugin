@@ -7,18 +7,41 @@
     <script src="scripts/vendor/jquery-2.1.4.js"></script>
     <script src="scripts/vendor/TweenMax.js"></script>
     <script src="scripts/vendor/TimelineMax.js"></script>
-    <script src="dist/gsap-typed-plugin.min.js"></script>
+    <script src="scripts/TreeTraversal.js"></script>
+    <script src="scripts/NodeCommonality.js"></script>
+    <script src="scripts/TreeCommonality.js"></script>
+    <script src="scripts/AugmentedTreeBuilding.js"></script>
+    <script src="scripts/TreePrinting.js"></script>
+    <script src="scripts/TypedPlugin.js"></script>
+    <script>
+        var typedPlugin = new TypedPlugin();
+        var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(global) !== "undefined") ? global : this || window; //helps ensure compatibility with AMD/RequireJS and CommonJS/Node
+        (_gsScope._gsQueue || (_gsScope._gsQueue = [])).push( function() {
+            //ignore the line above this and at the very end - those are for ensuring things load in the proper order
+            "use strict";
+
+            _gsScope._gsDefine.plugin(typedPlugin);
+
+        }); if (_gsScope._gsDefine) { _gsScope._gsQueue.pop()(); }
+    </script>
 
     <script type="text/javascript">
         $(function(){
-            var clone = $('#a').clone();
-            clone.find("h2").replaceWith("<h1>bigger</h1>");
-            TweenMax.from("#a", 3, {typed:{stopOnCommon: true, to: clone[0].childNodes}});
+            var clone = $('#a').clone().text("welcome to ty's site");
+            //TweenMax.from("#a", 3, {typed:{stopOnCommon: true, to: clone[0].childNodes}, ease: Linear.easeNone});
+
+            var l = $('<div>').html("<div>abcde<div>ghijk</div></div>")[0];
+            var r =$('<div>').html("<div>edcba<div>ghijk</div></div>")[0];
+            var commonSubTree = Finder.findCommonLeftSubTree(l, r);
+            var fromTreeAug = new TreeBuilder(l, commonSubTree.leftCommonSubTree).buildTree();
+            var toTreeAug = new TreeBuilder(r, commonSubTree.leftCommonSubTree).buildTree();
+            var printer = new TreePrinting.TreePrinter(fromTreeAug, toTreeAug);
+            //expect(printer.printTree(.3)).toEqual($('<div>').html("<div>abcd</div>")[0]);
         });
     </script>
 </head>
 <body>
-    <div id="a">this <strong> is </strong><h2>big</h2></div>
+    <h1 id="a">welcome to the show</h1>
 </body>
 
 </html>

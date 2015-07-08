@@ -1,5 +1,7 @@
 ///<reference path="NodeCommonality.ts"/>
 
+import CompStrat = NodeCommonality.NodeComparisonStrategy;
+
 module TreeCommonality
 {
     export class CommonLeftSubTree
@@ -13,11 +15,25 @@ module TreeCommonality
 
     export class CommonLeftSubTreeFinder
     {
+        static areNodesTextNodes(...nodes:Node[])
+        {
+            if(nodes == null || nodes.length == 0)
+                return false;
+
+            for(var i = 0; i < nodes.length; i++)
+            {
+                if(!(nodes[i] instanceof Text))
+                    return false;
+            }
+
+            return true;
+        }
+
         static findCommonLeftSubTree(left:Node, right:Node):CommonLeftSubTree{
             if(left == null || right == null)
                 throw new Error("You must provide non null values for parameters")
 
-            var compareStrategy = NodeCommonality.NodeComparisonStrategy.areEqual;
+            var compareStrategy = CompStrat.areEqual;
 
             var result = new CommonLeftSubTree();
 
@@ -39,10 +55,19 @@ module TreeCommonality
                 topL = leftNavStack[leftNavStack.length - 1];
                 topR = rightNavStack[rightNavStack.length - 1];
 
-                if(leftVisited.indexOf(topL) > -1 || compareStrategy(topL, topR))
+                if(leftVisited.indexOf(topL) > -1 || compareStrategy(topL, topR) || CommonLeftSubTreeFinder.areNodesTextNodes(topL, topR))
                 {
                     var lClone = topL.cloneNode(false);
                     var rClone = topR.cloneNode(false);
+
+                    if(CommonLeftSubTreeFinder.areNodesTextNodes(topL, topR))
+                    {
+                        var common =CompStrat.findCommonSubString((<Text>topL).wholeText, (<Text>topR).wholeText);
+                        lClone = document.createTextNode(common);
+                        rClone = document.createTextNode(common);
+                        if((<Text>topL).wholeText != (<Text>topR).wholeText)
+                            differenceHasBeenFound = true;
+                    }
 
                     if(leftVisited.indexOf(topL) == -1) {
                         if (!leftResultStack) {

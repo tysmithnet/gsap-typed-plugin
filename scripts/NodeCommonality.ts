@@ -2,7 +2,24 @@ module NodeCommonality
 {
     export class NodeComparisonStrategy
     {
-        static areEqual(left:Node, right:Node)
+        static findCommonSubString(lhs:string, rhs:string):string
+        {
+            if(lhs == null || rhs == null)
+                return null;
+
+            var result = "";
+            for(var i = 0; i < Math.min(lhs.length, rhs.length); i++)
+            {
+                if(lhs.charAt(i) == rhs.charAt(i))
+                    result = result + lhs.charAt(i);
+                else
+                    break;
+            }
+
+            return result;
+        }
+
+        static areEqual(left:Node, right:Node):boolean
         {
             if(left == null && right == null)
                 return true;
@@ -25,7 +42,7 @@ module NodeCommonality
             return true;
         }
 
-        static areNodeAttributesEqual(left:NamedNodeMap, right:NamedNodeMap)
+        static areNodeAttributesEqual(left:NamedNodeMap, right:NamedNodeMap):boolean
         {
             if(left == null && right == null)
                 return true;
