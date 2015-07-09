@@ -1,6 +1,5 @@
 var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(global) !== "undefined") ? global : this || window; //helps ensure compatibility with AMD/RequireJS and CommonJS/Node
 (_gsScope._gsQueue || (_gsScope._gsQueue = [])).push( function() {
-    //ignore the line above this and at the very end - those are for ensuring things load in the proper order
     "use strict";
 
     var TreeTraversal;
@@ -26,7 +25,6 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
     })();
     TreeTraversal.Traverser = Traverser;
 })(TreeTraversal || (TreeTraversal = {}));
-//# sourceMappingURL=TreeTraversal.js.map
 var NodeCommonality;
 (function (NodeCommonality) {
     var NodeComparisonStrategy = (function () {
@@ -90,8 +88,6 @@ var NodeCommonality;
     })();
     NodeCommonality.NodeComparisonStrategy = NodeComparisonStrategy;
 })(NodeCommonality || (NodeCommonality = {}));
-//# sourceMappingURL=NodeCommonality.js.map
-///<reference path="NodeCommonality.ts"/>
 var CompStrat = NodeCommonality.NodeComparisonStrategy;
 var TreeCommonality;
 (function (TreeCommonality) {
@@ -188,10 +184,6 @@ var TreeCommonality;
     })();
     TreeCommonality.CommonLeftSubTreeFinder = CommonLeftSubTreeFinder;
 })(TreeCommonality || (TreeCommonality = {}));
-//# sourceMappingURL=TreeCommonality.js.map
-///<reference path="NodeCommonality.ts"/>
-///<reference path="TreeCommonality.ts"/>
-///<reference path="TreeTraversal.ts"/>
 var AugmentedTreeBuilding;
 (function (AugmentedTreeBuilding) {
     var Traverser = TreeTraversal.Traverser;
@@ -268,7 +260,6 @@ var AugmentedTreeBuilding;
         AugmentedTreeBuilder.prototype.addMatcher = function (matcher) {
             this.matchers.push(matcher);
         };
-        // call this to actually produce the tree
         AugmentedTreeBuilder.prototype.buildTree = function () {
             var _this = this;
             if (this.fullTreeRoot == null)
@@ -301,9 +292,6 @@ var AugmentedTreeBuilding;
     })();
     AugmentedTreeBuilding.AugmentedTreeBuilder = AugmentedTreeBuilder;
 })(AugmentedTreeBuilding || (AugmentedTreeBuilding = {}));
-//# sourceMappingURL=AugmentedTreeBuilding.js.map
-///<reference path="AugmentedTreeBuilding.ts"/>
-///<reference path="TreeTraversal.ts"/>
 var TreeElement = AugmentedTreeBuilding.TreeElement;
 var TreeTraverser = TreeTraversal.Traverser;
 var TreePrinting;
@@ -448,11 +436,6 @@ var TreePrinting;
     })();
     TreePrinting.TreePrinter = TreePrinter;
 })(TreePrinting || (TreePrinting = {}));
-//# sourceMappingURL=TreePrinting.js.map
-///<reference path="TreePrinting.ts"/>
-///<reference path="AugmentedTreeBuilding.ts"/>
-///<reference path="TreeCommonality.ts"/>
-///<reference path="vendor/greensock.d.ts"/>
 var Finder = TreeCommonality.CommonLeftSubTreeFinder;
 var TreeBuilder = AugmentedTreeBuilding.AugmentedTreeBuilder;
 var Printer = TreePrinting.TreePrinter;
@@ -491,7 +474,6 @@ var TypedPlugin = (function () {
     };
     return TypedPlugin;
 })();
-//# sourceMappingURL=TypedPlugin.js.map
 
     _gsScope._gsDefine.plugin(new TypedPlugin());
 

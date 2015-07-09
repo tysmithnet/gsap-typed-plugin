@@ -42,6 +42,11 @@ module.exports = function(grunt) {
                 }
             }
         },
+        comments: {
+            dist: {
+                src: ['dist/gsap-typed-plugin.js']
+            }
+        },
         uglify: {
             dist: {
                 files: {
@@ -55,6 +60,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-ts');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.registerTask('default', ['ts:dist', 'concat:dist', 'string-replace:dist', 'uglify:dist']);
+    grunt.loadNpmTasks('grunt-stripcomments');
+    grunt.registerTask('default', ['ts:dist', 'concat:dist', 'string-replace:dist', 'comments:dist', 'uglify:dist']);
 
 };
