@@ -62,6 +62,16 @@ describe("NodeArrayConverter.convert()", () => {
         expect(Converter.convert(true)).toEqual(null);
         expect(Converter.convert(1)).toEqual(null);
     });
+
+    it("should return an array made up if a jQuery object is passed in", () => {
+        var j = $('<strong>');
+        expect(Converter.convert(j)).toEqual([j[0]]);
+    });
+
+    it("should return an array that contains a node if a node is passed in", () => {
+        var n = document.createElement("div");
+        expect(Converter.convert(n)).toEqual([n]);
+    });
 });
 
 describe("init", () => {

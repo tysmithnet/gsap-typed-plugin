@@ -59,6 +59,12 @@ class NodeArrayConverter
             return div.childNodes;
         }
 
+        if(value instanceof jQuery)
+            return [value[0]];
+
+        if(value instanceof Node)
+            return [value];
+
         return null;
     }
 }

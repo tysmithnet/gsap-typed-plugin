@@ -471,6 +471,10 @@ var NodeArrayConverter = (function () {
             div.innerHTML = value;
             return div.childNodes;
         }
+        if (value instanceof jQuery)
+            return [value[0]];
+        if (value instanceof Node)
+            return [value];
         return null;
     };
     return NodeArrayConverter;

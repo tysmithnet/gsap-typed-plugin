@@ -5,17 +5,21 @@
     <title></title>
 
     <script src="scripts/vendor/jquery-2.1.4.js"></script>
-    <script src="scripts/vendor/TweenMax.js"></script>
+    <script src="scripts/vendor/TweenLite.js"></script>
     <script src="scripts/vendor/TimelineMax.js"></script>
     <script src="dist/gsap-typed-plugin.js"></script>
+
 
     <script type="text/javascript">
         $(function(){
             var tl = new TimelineMax();
-            tl.to('#target', 3, {typed:{to:"gsap-typed-plugin is a plugin for greensock", stopOnCommon:false}, ease: Linear.easeNone});
-            tl.to('#target', 2, {typed:{to:"it allows for content to be typed out like typed.js", stopOnCommon:false}});
-            tl.to('#target', 5, {typed:{to:["but unlike typed.js it supports arbitrary", $('<button>').html('<strong>html tags</strong>')], stopOnCommon:false}});
-            tl.to('#target', 5, {typed:{to:"but unlike typed.js it supports stopping on common content", stopOnCommon:true}});
+
+//            tl.to('#target', 3, {typed:{to:"gsap-typed-plugin is a plugin for greensock", stopOnCommon:false}, ease: Linear.easeNone});
+//            tl.to('#target', 2, {typed:{to:"it allows for content to be typed out like typed.js", stopOnCommon:false}});
+//            tl.to('#target', 5, {typed:{to:["but unlike typed.js it supports arbitrary", $('<button>').html('<strong>html tags</strong>')], stopOnCommon:false}});
+//            tl.to('#target', 5, {typed:{to:"but unlike typed.js it supports stopping on common content", stopOnCommon:true}});
+
+
         });
     </script>
 </head>
