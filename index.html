@@ -12,10 +12,10 @@
     <script type="text/javascript">
         $(function(){
             var tl = new TimelineMax();
-            tl.to('#target', 3, {typed:{to:[document.createTextNode("gsap-typed-plugin is a plugin for greensock")], stopOnCommon:false}, ease: Linear.easeNone});
-            tl.to('#target', 2, {typed:{to:[document.createTextNode("it allows for content to be typed out like typed.js")], stopOnCommon:false}});
-            tl.to('#target', 5, {typed:{to:[document.createTextNode("but unlike typed.js it supports "), $('<strong>').text('html tags')[0]], stopOnCommon:false}});
-            tl.to('#target', 5, {typed:{to:[document.createTextNode("but unlike typed.js it supports stopping on common content")], stopOnCommon:true}});
+            tl.to('#target', 3, {typed:{to:"gsap-typed-plugin is a plugin for greensock", stopOnCommon:false}, ease: Linear.easeNone});
+            tl.to('#target', 2, {typed:{to:"it allows for content to be typed out like typed.js", stopOnCommon:false}});
+            tl.to('#target', 5, {typed:{to:["but unlike typed.js it supports arbitrary", $('<button>').html('<strong>html tags</strong>')], stopOnCommon:false}});
+            tl.to('#target', 5, {typed:{to:"but unlike typed.js it supports stopping on common content", stopOnCommon:true}});
         });
     </script>
 </head>
