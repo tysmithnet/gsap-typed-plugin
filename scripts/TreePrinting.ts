@@ -8,9 +8,9 @@ module TreePrinting
     export class TreePrinter
     {
         private fromTree:TreeElement;
-        private fromTreeInOrderTraversal:TreeElement[];
+        private fromTreegetInorderTraversal:TreeElement[];
         private toTree:TreeElement;
-        private toTreeInOrderTraversal:TreeElement[];
+        private toTreegetInorderTraversal:TreeElement[];
         private numBackSpacesUntilCommon:number;
         private numKeyPressesFromCommonUntilFinish:number;
 
@@ -18,15 +18,15 @@ module TreePrinting
         {
             this.fromTree = fromTree;
             this.toTree = toTree;
-            this.fromTreeInOrderTraversal = TreeTraverser.InOrderTraversal(fromTree);
-            this.toTreeInOrderTraversal = TreeTraverser.InOrderTraversal(toTree);
+            this.fromTreegetInorderTraversal = TreeTraverser.getInorderTraversal(fromTree);
+            this.toTreegetInorderTraversal = TreeTraverser.getInorderTraversal(toTree);
             this.calculateNumberOfBackspacesUntilCommon();
             this.calculateNumberOfKeyPressesUntilFinish();
         }
 
         private calculateNumberOfBackspacesUntilCommon():void
         {
-            var inOrderTraversal = TreeTraverser.InOrderTraversal(this.fromTree);
+            var inOrderTraversal = TreeTraverser.getInorderTraversal(this.fromTree);
             var runningTotal = 0;
             for(var i = inOrderTraversal.length - 1; i >= 0; i--)
             {
@@ -46,7 +46,7 @@ module TreePrinting
 
         private calculateNumberOfKeyPressesUntilFinish():void
         {
-            var inOrderTraversal = TreeTraverser.InOrderTraversal(this.toTree);
+            var inOrderTraversal = TreeTraverser.getInorderTraversal(this.toTree);
             var runningTotal = 0;
             for(var i = 0; i < inOrderTraversal.length; i++)
             {
@@ -62,11 +62,11 @@ module TreePrinting
         private showRemainingBackspaceContent(numberOfBackspaces): Node
         {
             var clone = this.fromTree.node.cloneNode(true);
-            var cloneTraversal = TreeTraversal.Traverser.InOrderTraversal(clone);
+            var cloneTraversal = TreeTraversal.Traverser.getInorderTraversal(clone);
             var runningTotal = 0;
-            for(var i = this.fromTreeInOrderTraversal.length - 1; i >= 0; i--)
+            for(var i = this.fromTreegetInorderTraversal.length - 1; i >= 0; i--)
             {
-                var element = this.fromTreeInOrderTraversal[i];
+                var element = this.fromTreegetInorderTraversal[i];
                 var node = cloneTraversal[i];
                 if(element.getNumberKeyPressesToReveal() + runningTotal < numberOfBackspaces)
                 {

@@ -19,12 +19,12 @@ describe("In order traversal", () => {
     });
 
     it("should return an empty array if either provided value is null", () => {
-        expect(Traverser.InOrderTraversal(null)).toEqual([]);
-        expect(Traverser.InOrderTraversal(undefined)).toEqual([]);
+        expect(Traverser.getInorderTraversal(null)).toEqual([]);
+        expect(Traverser.getInorderTraversal(undefined)).toEqual([]);
     });
 
     it("should return just the root if that is the only node in the tree", () => {
-        expect(Traverser.InOrderTraversal(exampleTree0)).toEqual([exampleTree0]);
+        expect(Traverser.getInorderTraversal(exampleTree0)).toEqual([exampleTree0]);
     });
 
     it("should return a traversal in this order nodes: root, left, right", () => {
@@ -41,7 +41,7 @@ describe("In order traversal", () => {
 
         var expectation = [A, B, C, D, E, F, X, Y, G, H];
 
-        expect(Traverser.InOrderTraversal(exampleTree1)).toEqual(expectation);
+        expect(Traverser.getInorderTraversal(exampleTree1)).toEqual(expectation);
     });
 });
 

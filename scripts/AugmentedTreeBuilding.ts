@@ -105,8 +105,8 @@ module AugmentedTreeBuilding
 
         private splitLastNode():void
         {
-            var fullTraversal = Traverser.InOrderTraversal(this.fullTreeRoot);
-            var commonTraversal = Traverser.InOrderTraversal(this.commonSubTreeRoot);
+            var fullTraversal = Traverser.getInorderTraversal(this.fullTreeRoot);
+            var commonTraversal = Traverser.getInorderTraversal(this.commonSubTreeRoot);
             var lastFull = fullTraversal[commonTraversal.length - 1];
             var lastCommon = commonTraversal[commonTraversal.length - 1];
             if(lastFull.nodeType != Node.TEXT_NODE)
@@ -130,7 +130,7 @@ module AugmentedTreeBuilding
 
             var result:TreeElement;
 
-            var numberOfCommonNodes = Traverser.InOrderTraversal(this.commonSubTreeRoot).length;
+            var numberOfCommonNodes = Traverser.getInorderTraversal(this.commonSubTreeRoot).length;
             var numberMarkedAsCommon = 0;
 
             var recursion = (parent:TreeElement, node:Node):void => {

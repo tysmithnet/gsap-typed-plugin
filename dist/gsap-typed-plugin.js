@@ -27,7 +27,7 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
     var Traverser = (function () {
         function Traverser() {
         }
-        Traverser.InOrderTraversal = function (root) {
+        Traverser.getInorderTraversal = function (root) {
             if (root == null)
                 return [];
             var resultStack = [];
@@ -266,8 +266,8 @@ var AugmentedTreeBuilding;
                 this.splitLastNode();
         }
         AugmentedTreeBuilder.prototype.splitLastNode = function () {
-            var fullTraversal = Traverser.InOrderTraversal(this.fullTreeRoot);
-            var commonTraversal = Traverser.InOrderTraversal(this.commonSubTreeRoot);
+            var fullTraversal = Traverser.getInorderTraversal(this.fullTreeRoot);
+            var commonTraversal = Traverser.getInorderTraversal(this.commonSubTreeRoot);
             var lastFull = fullTraversal[commonTraversal.length - 1];
             var lastCommon = commonTraversal[commonTraversal.length - 1];
             if (lastFull.nodeType != Node.TEXT_NODE)
@@ -285,7 +285,7 @@ var AugmentedTreeBuilding;
             if (this.fullTreeRoot == null)
                 throw Error("The full tree root must be non-null");
             var result;
-            var numberOfCommonNodes = Traverser.InOrderTraversal(this.commonSubTreeRoot).length;
+            var numberOfCommonNodes = Traverser.getInorderTraversal(this.commonSubTreeRoot).length;
             var numberMarkedAsCommon = 0;
             var recursion = function (parent, node) {
                 var isInCommonSubTree = numberMarkedAsCommon++ < numberOfCommonNodes;
@@ -320,13 +320,13 @@ var TreePrinting;
         function TreePrinter(fromTree, toTree) {
             this.fromTree = fromTree;
             this.toTree = toTree;
-            this.fromTreeInOrderTraversal = TreeTraverser.InOrderTraversal(fromTree);
-            this.toTreeInOrderTraversal = TreeTraverser.InOrderTraversal(toTree);
+            this.fromTreegetInorderTraversal = TreeTraverser.getInorderTraversal(fromTree);
+            this.toTreegetInorderTraversal = TreeTraverser.getInorderTraversal(toTree);
             this.calculateNumberOfBackspacesUntilCommon();
             this.calculateNumberOfKeyPressesUntilFinish();
         }
         TreePrinter.prototype.calculateNumberOfBackspacesUntilCommon = function () {
-            var inOrderTraversal = TreeTraverser.InOrderTraversal(this.fromTree);
+            var inOrderTraversal = TreeTraverser.getInorderTraversal(this.fromTree);
             var runningTotal = 0;
             for (var i = inOrderTraversal.length - 1; i >= 0; i--) {
                 var element = inOrderTraversal[i];
@@ -341,7 +341,7 @@ var TreePrinting;
             return this.numBackSpacesUntilCommon + this.numKeyPressesFromCommonUntilFinish;
         };
         TreePrinter.prototype.calculateNumberOfKeyPressesUntilFinish = function () {
-            var inOrderTraversal = TreeTraverser.InOrderTraversal(this.toTree);
+            var inOrderTraversal = TreeTraverser.getInorderTraversal(this.toTree);
             var runningTotal = 0;
             for (var i = 0; i < inOrderTraversal.length; i++) {
                 var element = inOrderTraversal[i];
@@ -354,10 +354,10 @@ var TreePrinting;
         };
         TreePrinter.prototype.showRemainingBackspaceContent = function (numberOfBackspaces) {
             var clone = this.fromTree.node.cloneNode(true);
-            var cloneTraversal = TreeTraversal.Traverser.InOrderTraversal(clone);
+            var cloneTraversal = TreeTraversal.Traverser.getInorderTraversal(clone);
             var runningTotal = 0;
-            for (var i = this.fromTreeInOrderTraversal.length - 1; i >= 0; i--) {
-                var element = this.fromTreeInOrderTraversal[i];
+            for (var i = this.fromTreegetInorderTraversal.length - 1; i >= 0; i--) {
+                var element = this.fromTreegetInorderTraversal[i];
                 var node = cloneTraversal[i];
                 if (element.getNumberKeyPressesToReveal() + runningTotal < numberOfBackspaces) {
                     node.parentNode.removeChild(node);

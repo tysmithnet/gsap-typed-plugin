@@ -6,7 +6,7 @@ module TreeTraversal
     }
     export class Traverser
     {
-        static InOrderTraversal<T extends IHasChildNodes>(root:T):T[] {
+        static getInorderTraversal<T extends IHasChildNodes>(root:T):T[] {
             if(root == null)
                 return [];
 

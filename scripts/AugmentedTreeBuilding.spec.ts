@@ -148,7 +148,7 @@ describe("Common sub tree augmented tree building", () => {
 
     it("should build a tree with all nodes not in the common sub tree if the common sub tree is null", () => {
         var tree = new TreeBuilder(fullTree0, null).buildTree();
-        var traversal = Traverser.InOrderTraversal(tree);
+        var traversal = Traverser.getInorderTraversal(tree);
         var agg = false;
         for(var i = 0; i < traversal.length; i++)
         {
