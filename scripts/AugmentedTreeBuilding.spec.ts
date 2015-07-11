@@ -8,7 +8,7 @@ import TreeBuilder = AugmentedTreeBuilding.AugmentedTreeBuilder;
 import TreeElement = AugmentedTreeBuilding.TreeElement;
 import Traverser = TreeTraversal.Traverser;
 import DisplayStrategy = AugmentedTreeBuilding.DisplayStrategy;
-import IDisplalyStrategy = AugmentedTreeBuilding.IDisplayStrategy;
+import IDisplayStrategy = AugmentedTreeBuilding.IDisplayStrategy;
 import IMatcher = AugmentedTreeBuilding.IMatcher;
 
 var $ = jQuery;
@@ -183,7 +183,7 @@ describe("Tree building with custom strategy", () => {
             return node;
         };
 
-        var getDisplayStrat = (node:Node):IDisplalyStrategy => {
+        var getDisplayStrat = (node:Node):IDisplayStrategy => {
             return {
                 displayNode: customDisplayStrat,
                 numberKeyPressesToReveal: 1

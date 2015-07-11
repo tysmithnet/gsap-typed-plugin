@@ -8,11 +8,13 @@
 import Finder = TreeCommonality.CommonLeftSubTreeFinder;
 import TreeBuilder = AugmentedTreeBuilding.AugmentedTreeBuilder;
 import Printer = TreePrinting.TreePrinter;
+import IMatcher = AugmentedTreeBuilding.IMatcher;
 
 interface IPluginOptions
 {
     stopOnCommon:boolean;
     to:any;
+    customMatchers:IMatcher[];
 }
 
 class NodeArrayConverter
@@ -107,8 +109,22 @@ class TypedPlugin
             commonSubtree = Finder.findCommonLeftSubTree(targetClone, fakeToRoot).leftCommonSubTree;
         }
 
-        var fromAug = new TreeBuilder(targetClone, commonSubtree).buildTree();
-        var toAug = new TreeBuilder(fakeToRoot, commonSubtree).buildTree();
+        var fromBuilder = new TreeBuilder(targetClone, commonSubtree);
+        var toBuilder = new TreeBuilder(fakeToRoot, commonSubtree);
+        if(value.customMatchers && value.customMatchers.length)
+        {
+            for(var i = 0; i < value.customMatchers.length; i++)
+            {
+                fromBuilder.addMatcher(value.customMatchers[i]);
+                toBuilder.addMatcher(value.customMatchers[i]);
+            }
+        }
+        var fromAug = fromBuilder.buildTree();
+
+
+        var toAug = toBuilder.buildTree();
+
+
         this.printer = new Printer(fromAug, toAug);
 
         return true;

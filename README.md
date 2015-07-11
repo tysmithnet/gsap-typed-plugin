@@ -94,3 +94,33 @@ You can easily make a cursor by using some css and 2 spans:
 ... and finally...
 
     <div id="a"><span id="b"></span><span class="blinking-cursor">|</span></div>
+
+You can provide your own matching and rendering functions to customize the way content is displayed. A good example of this
+is rendering icons like those from font awesome or from glyphicons.  The following illustrates how you could display icons
+as if they were characters.
+
+    
+    var matcher = {
+    isMatch:function(node)
+    {
+       return node instanceof HTMLElement && node.classList.contains('fa');
+    },
+    getDisplayStrategy: function(node){
+       return {
+           displayNode: function(node, numKeyPresses){
+               return node;
+           },
+           numberKeyPressesToReveal: 1
+       };
+    }
+    };
+    
+    TweenMax.to('#target', 3, {typed:{to:"<span class='fa fa-user'></span><span class='fa fa-heart'></span><span class='fa fa-user'></span>", stopOnCommon:false, customMatchers:[matcher]}, ease: Linear.easeNone});
+    
+You provide an object that exposes 2 properties: `isMatch` and `getDisplayStrategy`.  `isMatch` is a function that
+should return `true` if the matcher is capable of processing the `Node` passed to it, and false if it cannot.  `getDisplayStrategy`
+is a function that takes a `Node` and returns an object.  The object it returns should have 2 properties: `displayNode`
+and `numberKeyPressesToReveal`.  `displayNode` is a function that takes a `Node` an integer.  The `Node` is the DOM element
+that was matched in `isMatch`.  `numKeyPresses` is how the number of "key presses" that should be consumed on this node.  It will
+be a number between 0 and `numberKeyPressesToReveal`.  `numKeyPressesToReveal` lets the plugin know how many keypresses it takes to
+completely reveal this node.  

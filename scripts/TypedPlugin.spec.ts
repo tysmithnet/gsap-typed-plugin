@@ -2,9 +2,11 @@
 ///<reference path="vendor/jasmine.d.ts"/>
 ///<reference path="TypedPlugin.ts"/>
 ///<reference path="vendor/greensock.d.ts"/>
+///<reference path="AugmentedTreeBuilding.ts"/>
 
 var $ = jQuery;
 var Converter = NodeArrayConverter;
+import IDisplayStrategy = AugmentedTreeBuilding.IDisplayStrategy;
 
 describe("NodeArrayConverter.convertToNode()", () =>{
     it("should convert jquery", () => {
@@ -14,10 +16,10 @@ describe("NodeArrayConverter.convertToNode()", () =>{
 
     it("should return the param if it is node", () => {
         var n = document.createElement("div")
-        expect(Converter.convertToNode(n)).toBe(n);
+        expect(Converter.convertToNode(n)).toEqual(n);
 
         var t = document.createTextNode("hi");
-        expect(Converter.convertToNode(t)).toBe(t);
+        expect(Converter.convertToNode(t)).toEqual(t);
     });
 
     it("should convert a string to a textnode", () => {
@@ -32,9 +34,11 @@ describe("NodeArrayConverter.convert()", () => {
 
     it("should return the value if it is a NodeList", () => {
         var div = document.createElement("div");
-        expect(Converter.convert(div.childNodes)).toBe(div.childNodes);
+        var convert = Converter.convert(div.childNodes);
+        var equal =  convert == div.childNodes;
+        expect(equal).toEqual(true);
         div.innerHTML = "<div>hi</div>";
-        expect(Converter.convert(div.childNodes)).toBe(div.childNodes);
+        expect(Converter.convert(div.childNodes)).toEqual(div.childNodes);
     });
 
     it("should return an array with all converted elements", () => {
@@ -76,7 +80,7 @@ describe("NodeArrayConverter.convert()", () => {
 
 describe("init", () => {
     it("should return false if a null target is passed in", () => {
-        var val = {to:"hi", stopOnCommon:true};
+        var val = {to:"hi", stopOnCommon:true, customMatchers:null};
         expect(new TypedPlugin().init(null, val, null)).toEqual(false);
     });
 
@@ -89,15 +93,15 @@ describe("init", () => {
     });
 
     it("should return true if a an array of jQuery objects is passed in", () => {
-        expect(new TypedPlugin().init(document.createElement("div"), {to: [$('<div>'), $('<strong>')], stopOnCommon: true}, null)).toEqual(true);
+        expect(new TypedPlugin().init(document.createElement("div"), {to: [$('<div>'), $('<strong>')], stopOnCommon: true, customMatchers:null}, null)).toEqual(true);
     });
 
     it("should return true if a string is passed in for the destination", () => {
-        expect(new TypedPlugin().init(document.createElement("div"), {to:"<div>hi</div><strong>there</strong>", stopOnCommon:false}, null)).toEqual(true);
+        expect(new TypedPlugin().init(document.createElement("div"), {to:"<div>hi</div><strong>there</strong>", stopOnCommon:false, customMatchers:null}, null)).toEqual(true);
     });
 
     it("should return false if a non convertible value is passed in ", () => {
-        expect(new TypedPlugin().init(document.createElement("div"), {to:true, stopOnCommon: false}, null)).toEqual(false);
+        expect(new TypedPlugin().init(document.createElement("div"), {to:true, stopOnCommon: false, customMatchers:null}, null)).toEqual(false);
     });
 
     it("should return true if valid values are passed in", () => {
@@ -107,7 +111,8 @@ describe("init", () => {
 
         var values:IPluginOptions = {
             stopOnCommon: true,
-            to: $('<div>').html("hi")[0].childNodes
+            to: $('<div>').html("hi")[0].childNodes,
+            customMatchers: null
         };
         expect(new TypedPlugin().init(target, values, null)).toEqual(true);
     });
@@ -119,9 +124,34 @@ describe("init", () => {
 
         var values:IPluginOptions = {
             stopOnCommon: false,
-            to: $('<div>').html("hi")[0].childNodes
+            to: $('<div>').html("hi")[0].childNodes,
+            customMatchers: null
         };
         expect(new TypedPlugin().init(target, values, null)).toEqual(true);
+    });
+
+    it("should return true if custom matchers are passed in", () => {
+        var customDisplayStrat = (node:Node, numKeyPresses):Node => {
+            return node;
+        };
+
+        var getDisplayStrat = (node:Node):IDisplayStrategy => {
+            return {
+                displayNode: customDisplayStrat,
+                numberKeyPressesToReveal: 1
+            };
+        };
+
+        var matcher:IMatcher = {
+            isMatch:(node:Node):boolean =>
+            {
+                return node instanceof HTMLElement && (<HTMLElement>node).classList.contains('fa');
+            },
+            getDisplayStrategy: getDisplayStrat
+        };
+        var values = {to:"<span class='fa fa-user'></span><span class='fa fa-heart'></span><span class='fa fa-user'></span>", stopOnCommon:false, customMatchers:[matcher]};
+        var root = $('<div>')[0];
+        expect(new TypedPlugin().init(root, values, null)).toEqual(true);
     });
 });
 
@@ -132,11 +162,43 @@ describe("set", () => {
         var to = [strong];
         var values:IPluginOptions = {
             stopOnCommon: false,
-            to: to
+            to: to,
+            customMatchers: null
         };
         var plugin = new TypedPlugin();
         plugin.init(root, values, null);
         plugin.set(1);
         expect($(root).text()).toEqual('hello');
+    });
+
+    it("should appropriately use a custom matcher if one is provided", () => {
+        var customDisplayStrat = (node:Node, numKeyPresses):Node => {
+            return node;
+        };
+
+        var getDisplayStrat = (node:Node):IDisplayStrategy => {
+            return {
+                displayNode: customDisplayStrat,
+                numberKeyPressesToReveal: 1
+            };
+        };
+
+        var matcher:IMatcher = {
+            isMatch:(node:Node):boolean =>
+            {
+                return node instanceof HTMLElement && (<HTMLElement>node).classList.contains('fa');
+            },
+            getDisplayStrategy: getDisplayStrat
+        };
+        var values = {to:"<span class='fa fa-user'></span><span class='fa fa-heart'></span><span class='fa fa-user'></span>", stopOnCommon:false, customMatchers:[matcher]};
+        var root = $('<div>')[0];
+        var plugin = new TypedPlugin();
+        plugin.init(root, values, null);
+        plugin.set(.4)
+        expect(root).toEqual($('<div>').html("<span class='fa fa-user'></span>")[0]);
+        plugin.set(.7);
+        expect(root).toEqual($('<div>').html("<span class='fa fa-user'></span><span class='fa fa-heart'></span>")[0]);
+        plugin.set(1);
+        expect(root).toEqual($('<div>').html("<span class='fa fa-user'></span><span class='fa fa-heart'></span><span class='fa fa-user'></span>")[0]);
     });
 });
