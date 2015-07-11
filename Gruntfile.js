@@ -50,6 +50,11 @@ module.exports = function(grunt) {
             dist: {
                 src: ['dist/gsap-typed-plugin.js']
             }
+        },
+        karma: {
+            unit: {
+                configFile: 'karma.conf.js'
+            }
         }
     });
 
@@ -58,6 +63,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-stripcomments');
+    grunt.loadNpmTasks('grunt-karma');
     grunt.registerTask('default', ['ts:dist', 'concat:dist', 'string-replace:dist', 'comments:dist', 'concat:license']);
+    grunt.registerTask('test', ['karma']);
 
 };
