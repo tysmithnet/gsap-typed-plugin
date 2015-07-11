@@ -25,6 +25,10 @@ module.exports = function(grunt) {
                   "scripts/TreePrinting.js",
                   "scripts/TypedPlugin.js"],
               dest: 'dist/src.js'
+          },
+          license: {
+              src: ["dist/license.js", "dist/gsap-typed-plugin.js"],
+              dest: "dist/gsap-typed-plugin.js"
           }
         },
         'string-replace': {
@@ -61,6 +65,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-stripcomments');
-    grunt.registerTask('default', ['ts:dist', 'concat:dist', 'string-replace:dist', 'comments:dist', 'uglify:dist']);
+    grunt.registerTask('default', ['ts:dist', 'concat:dist', 'string-replace:dist', 'comments:dist', 'concat:license', 'uglify:dist']);
 
 };
