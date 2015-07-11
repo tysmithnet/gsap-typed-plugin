@@ -2,7 +2,7 @@
   "name": "gsap-typed-plugin",
   "version": "1.0.0",
   "description": "A Greensock plugin that mimics the typing of words.  It also supports arbitrary HTML content.",
-  "main": "dist/gsap-typed-plugin.min.js",
+  "main": "dist/gsap-typed-plugin.js",
   "dependencies": {},
   "devDependencies": {
     "grunt": "^0.4.5",
