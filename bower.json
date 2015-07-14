@@ -1,6 +1,6 @@
 {
   "name": "gsap-typed-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "authors": [
     "Ty Smith"
   ],
@@ -25,7 +25,8 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "test",
-    "tests"
+    ".tscache/**",
+    "coverage/**",
+    ".idea/**"
   ]
 }
