@@ -30,6 +30,8 @@ You can also pass in HTML as a string if it is not part of an array:
     TweenLite.to('#target', 1, {typed:{to:["<strong>this is not bold and renders the start and end tags</strong>"], stopOnCommon:true}});
     TweenLite.to('#target', 1, {typed:{to:"<strong>this IS bold, notice no []</strong>", stopOnCommon:true}});
 
+Setting `stopOnCommon` to `true` will stop erasing characters when it reaches content that is common to the start and the end.
+
 You can easily make a cursor by using some css and 2 spans:
 
     .blinking-cursor {
@@ -124,3 +126,6 @@ and `numberKeyPressesToReveal`.  `displayNode` is a function that takes a `Node`
 that was matched in `isMatch`.  `numKeyPresses` is how the number of "key presses" that should be consumed on this node.  It will
 be a number between 0 and `numberKeyPressesToReveal`.  `numKeyPressesToReveal` lets the plugin know how many keypresses it takes to
 completely reveal this node.  
+
+Options
+-------

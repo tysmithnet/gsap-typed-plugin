@@ -79,6 +79,12 @@ describe("NodeArrayConverter.convert()", () => {
 });
 
 describe("init", () => {
+    var options;
+
+    beforeEach(() => {
+       options = {to: [$('<div>'), $('<strong>')], stopOnCommon: true, customMatchers:null};
+    });
+
     it("should return false if a null target is passed in", () => {
         var val = {to:"hi", stopOnCommon:true, customMatchers:null};
         expect(new TypedPlugin().init(null, val, null)).toEqual(false);
@@ -86,6 +92,10 @@ describe("init", () => {
 
     it("should return false if a null value is passed in", () => {
         expect(new TypedPlugin().init(document.createElement("div"), null, null)).toEqual(false);
+    });
+
+    it("should return true if a jQuery object is passed in", () => {
+        expect(new TypedPlugin().init($('<div>'), options, null)).toEqual(true);
     });
 
     it("should return false if to is not set", () => {

@@ -503,21 +503,20 @@ var TypedPlugin = (function () {
     function TypedPlugin() {
         this.propName = "typed";
         this.API = 2;
-        this.version = "0.0.1";
+        this.version = "1.0.2";
     }
     TypedPlugin.prototype.init = function (target, value, tween) {
-        if (!(target instanceof Node)) {
+        this.target = NodeArrayConverter.convertToNode(target);
+        if (this.target == null)
             return false;
-        }
         if (value == null || value.to == undefined)
             return false;
         this.endingValue = NodeArrayConverter.convert(value.to);
         if (this.endingValue == null)
             return false;
-        this.target = target;
         var targetClone = document.createElement("div");
-        for (var i = 0; i < target.childNodes.length; i++)
-            targetClone.appendChild(target.childNodes[i].cloneNode(true));
+        for (var i = 0; i < this.target.childNodes.length; i++)
+            targetClone.appendChild(this.target.childNodes[i].cloneNode(true));
         var fakeToRoot = document.createElement("div");
         for (var i = 0; i < this.endingValue.length; i++)
             fakeToRoot.appendChild(this.endingValue[i].cloneNode(true));

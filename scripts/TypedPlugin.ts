@@ -75,17 +75,16 @@ class TypedPlugin
 {
     propName:string = "typed";
     API:number = 2;
-    version:string = "0.0.1";
+    version:string = "1.0.2";
     printer:TreePrinting.TreePrinter;
     target:Node;
     endingValue:Node[] | NodeList;
 
     init(target:any, value:IPluginOptions, tween: Tween):boolean
     {
-        if(!(target instanceof Node))
-        {
+        this.target = NodeArrayConverter.convertToNode(target);
+        if(this.target == null)
             return false;
-        }
 
         if(value == null || value.to == undefined)
             return false;
@@ -94,10 +93,9 @@ class TypedPlugin
         if(this.endingValue == null)
             return false;
 
-        this.target = target;
         var targetClone = document.createElement("div");
-        for(var i = 0; i < target.childNodes.length; i++)
-            targetClone.appendChild(target.childNodes[i].cloneNode(true));
+        for(var i = 0; i < this.target.childNodes.length; i++)
+            targetClone.appendChild(this.target.childNodes[i].cloneNode(true));
 
         var fakeToRoot = document.createElement("div");
         for(var i = 0 ; i < this.endingValue.length; i++)
@@ -121,9 +119,7 @@ class TypedPlugin
         }
         var fromAug = fromBuilder.buildTree();
 
-
         var toAug = toBuilder.buildTree();
-
 
         this.printer = new Printer(fromAug, toAug);
 
