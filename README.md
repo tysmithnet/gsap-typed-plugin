@@ -129,3 +129,49 @@ completely reveal this node.
 
 Options
 -------
+    interface IPluginOptions
+    {
+        // think about how you would change the sentence "this is it"
+        // to "this is just the beginning"
+        // you would press backspace 2 times until "this is " was the sentence
+        // then you would type "just the beginning"
+        // in the same spirit, when stop on common is true, the plugin will find the largest common
+        // substring, delete until it reaches that point, then continue with the new different content
+        stopOnCommon:boolean;
+        
+        // this is the "destination" content
+        to:any;
+        
+        // sometimes you might want to treat some content differently than
+        // the standard 1 letter = 1 key press strategy
+        // for example, you might want to treet font awesome icons as key presses
+        // you can use this option to configure these custom matchers
+        customMatchers:IMatcher[];
+    }
+
+Example Custom Matcher
+----------------------
+This is an example from the test file on how to create a custom matcher that will use a key press
+to display font awesome icons as single key strokes.
+
+    var customDisplayStrat = (node:Node, numKeyPresses):Node => {
+        return node;
+    };
+
+    var getDisplayStrat = (node:Node):IDisplayStrategy => {
+        return {
+            displayNode: customDisplayStrat,
+            numberKeyPressesToReveal: 1
+        };
+    };
+
+    var matcher:IMatcher = {
+        isMatch:(node:Node):boolean =>
+        {
+            return node instanceof HTMLElement && (<HTMLElement>node).classList.contains('fa');
+        },
+        getDisplayStrategy: getDisplayStrat
+    };
+    var values = {to:"<span class='fa fa-user'></span><span class='fa fa-heart'></span><span class='fa fa-user'></span>", stopOnCommon:false, customMatchers:[matcher]};
+    var root = $('<div>')[0];
+    expect(new TypedPlugin().init(root, values, null)).toEqual(true);
